@@ -38,7 +38,7 @@ Ces éléments ont une interface mais **aucun backend** branché pour l'instant 
 Le site est en ligne sur Netlify avec déploiement continu :
 - **Site live** : https://stnt-togo.netlify.app
 - **Dépôt** : `dgtecsarlu/stnt-togo` (branche `main`) — chaque `git push` redéploie automatiquement
-- **Domaine** `stnt.tg` : à brancher (DNS via NIC-Togo) + SSL Let's Encrypt automatique
+- **Domaine** `stnt-togo.org` : acquis chez Gandi, à brancher au site (DNS Gandi → Netlify) + SSL automatique
 
 ## Phase 2 (plateforme complète)
 
@@ -46,4 +46,4 @@ Voir `CAHIER-DES-CHARGES.md` : backend Supabase, paiements Paygate.tg + Stripe, 
 
 ---
 
-Webmaster : **Ing. BODJONA Bataka Pignanti** · Développeur FullStack · Master Télécom & Master IASIG · webmaster@stnt.tg
+Webmaster : **Ing. BODJONA Bataka Pignanti** · Développeur FullStack · Master Télécom & Master IASIG · webmaster@stnt-togo.org

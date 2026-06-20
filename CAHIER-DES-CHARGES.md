@@ -44,7 +44,7 @@
 - Carte admin : géolocalisation par ville, filtres (métier, région, à jour de cotisation), clic = fiche membre.
 
 ### 3.5 Visioconférence
-- Jitsi Meet, réunions sans limite de temps, URL type `stnt.tg/reunion`.
+- Jitsi Meet, réunions sans limite de temps, URL type `stnt-togo.org/reunion`.
 
 ### 3.6 Communication
 - Newsletter email/SMS avec segmentation (ex. uniquement les membres « à jour »).
@@ -135,7 +135,7 @@ CREATE TABLE audit_logs (
 
 ## 7. Roadmap (estimation 8 semaines)
 
-1. **S1-2 — Fondations** : infra, domaine `stnt.tg`, schéma BDD, formulaire adhésion + photo, auth SG.
+1. **S1-2 — Fondations** : infra, domaine `stnt-togo.org`, schéma BDD, formulaire adhésion + photo, auth SG.
 2. **S3-4 — Flux financiers & SIG** : Paygate (T-Money/Moov), Stripe, carte interactive, cartes membres PDF.
 3. **S5-6 — Interactivité** : Jitsi, newsletter, dashboard SG + RBAC, espace donateurs.
 4. **S7-8 — Tests & lancement** : bêta paiement, audit sécurité, formation SG/Trésorier, ouverture publique.
@@ -147,4 +147,4 @@ CREATE TABLE audit_logs (
 
 ---
 
-Webmaster : **Ing. BODJONA Bataka Pignanti** · Développeur FullStack · Master Télécom & Master IASIG · webmaster@stnt.tg
+Webmaster : **Ing. BODJONA Bataka Pignanti** · Développeur FullStack · Master Télécom & Master IASIG · webmaster@stnt-togo.org
