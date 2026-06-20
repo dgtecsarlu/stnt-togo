@@ -33,12 +33,12 @@ Ces éléments ont une interface mais **aucun backend** branché pour l'instant 
 - **Textes** : directement dans `index.html`
 - **Coordonnées** : section `#contact` et footer de `index.html`
 
-## Déploiement (gratuit)
+## Déploiement
 
-Même méthode que le site GEOTECH :
-1. Créer un dépôt GitHub (ex. `dgtecsarlu/stnt-site`)
-2. Activer GitHub Pages, ou connecter Netlify (déploiement continu)
-3. Brancher le domaine `stnt.tg` (DNS) + SSL Let's Encrypt automatique
+Le site est en ligne sur Netlify avec déploiement continu :
+- **Site live** : https://stnt-togo.netlify.app
+- **Dépôt** : `dgtecsarlu/stnt-togo` (branche `main`) — chaque `git push` redéploie automatiquement
+- **Domaine** `stnt.tg` : à brancher (DNS via NIC-Togo) + SSL Let's Encrypt automatique
 
 ## Phase 2 (plateforme complète)
 
