@@ -153,6 +153,8 @@ a { color: inherit; text-decoration: none; }
   display: grid; place-items: center; color: rgba(255,255,255,0.85); box-shadow: var(--shadow-lg);
 }
 .sg__photo svg { width: 120px; height: 120px; }
+.sg__photo--img { padding: 0; overflow: hidden; background: var(--nuit-2); }
+.sg__photo--img img { width: 100%; height: 100%; object-fit: cover; }
 .sg__quote { font-size: 1.12rem; font-style: italic; color: #e2e8f0; position: relative; padding-left: 28px; }
 .sg__quote::before { content: '“'; position: absolute; left: -6px; top: -18px; font-size: 4rem; color: var(--emeraude-light); font-family: Georgia, serif; }
 .sg__author { margin-top: 22px; font-style: normal; }
@@ -226,6 +228,27 @@ a { color: inherit; text-decoration: none; }
 .bar__track { height: 9px; background: var(--gris-bg); border-radius: 999px; overflow: hidden; }
 .bar__fill { height: 100%; border-radius: 999px; }
 
+/* ---------- Délégués du personnel ---------- */
+.delegs { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.deleg-card { background: var(--gris-card); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid #e9eef5; padding: 28px; transition: var(--transition); }
+.deleg-card:hover { box-shadow: var(--shadow-lg); }
+.deleg-card__head { display: flex; align-items: center; gap: 14px; padding-bottom: 18px; border-bottom: 1px solid #e9eef5; margin-bottom: 18px; }
+.deleg-card__logo { width: 56px; height: 56px; border-radius: 12px; display: grid; place-items: center; font-weight: 800; color: #fff; font-size: 0.95rem; flex-shrink: 0; }
+.deleg-card__logo--yas { background: linear-gradient(135deg, #6d28d9, #2563EB); }
+.deleg-card__logo--mixx { background: linear-gradient(135deg, #059669, #0891b2); }
+.deleg-card__head h3 { color: var(--nuit); font-size: 1.2rem; }
+.deleg-card__head span { font-size: 0.84rem; color: var(--acier-light); }
+.deleg-sub { font-size: 0.76rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cobalt); margin: 4px 0 12px; }
+.deleg-bureau { list-style: none; margin-bottom: 22px; }
+.deleg-bureau li { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-bottom: 1px dashed #e2e8f0; font-size: 0.92rem; }
+.deleg-bureau li:last-child { border-bottom: none; }
+.deleg-role { color: var(--acier); }
+.deleg-name { color: var(--nuit); font-weight: 600; text-align: right; }
+.deleg-comm { display: flex; flex-direction: column; gap: 12px; }
+.comm-item { background: var(--gris-bg); border-left: 3px solid var(--emeraude); border-radius: 8px; padding: 12px 14px; }
+.comm-item .comm-date { font-size: 0.72rem; font-weight: 700; color: var(--emeraude); text-transform: uppercase; letter-spacing: 0.05em; }
+.comm-item p { font-size: 0.9rem; color: var(--acier); margin-top: 4px; }
+
 /* ---------- Contact ---------- */
 .contact { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; }
 .contact__item { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 22px; }
@@ -271,7 +294,7 @@ a { color: inherit; text-decoration: none; }
   }
   .impact { grid-template-columns: repeat(2, 1fr); }
   .grid--3, .grid--4 { grid-template-columns: repeat(2, 1fr); }
-  .sg, .join, .donors, .contact { grid-template-columns: 1fr; }
+  .sg, .join, .donors, .contact, .delegs { grid-template-columns: 1fr; }
   .donor-wall { grid-template-columns: repeat(2, 1fr); }
   .footer__grid { grid-template-columns: 1fr; gap: 28px; }
 }
