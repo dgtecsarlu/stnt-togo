@@ -1,0 +1,13 @@
+# Configuration Netlify — Site STNT (statique, sans build)
+[build]
+  publish = "."
+  command = ""
+
+# En-têtes de sécurité
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(self), geolocation=(self)"
