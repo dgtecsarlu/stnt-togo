@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STNT — Syndicat des Travailleurs du Numérique du Togo</title>
+  <meta name="description" content="Le STNT défend les droits des travailleurs du numérique au Togo : développeurs, ingénieurs réseaux, techniciens télécoms et experts en IA. Adhésion, formation, représentation et solidarité." />
+  <meta name="theme-color" content="#0B1E3F" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="STNT — Syndicat des Travailleurs du Numérique du Togo" />
+  <meta property="og:description" content="Défendre vos droits dans l'ère numérique." />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Leaflet (cartographie SIG) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- ============ HEADER ============ -->
+  <header class="header">
+    <div class="container header__inner">
+      <a href="#accueil" class="brand">
+        <svg class="brand__logo" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="48" height="48" rx="12" fill="#0B1E3F"/>
+          <circle cx="24" cy="14" r="4" fill="#10B981"/>
+          <circle cx="14" cy="30" r="4" fill="#2563EB"/>
+          <circle cx="34" cy="30" r="4" fill="#2563EB"/>
+          <path d="M24 14L14 30M24 14L34 30M14 30H34" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span class="brand__text">
+          <strong>STNT</strong>
+          <span>Travailleurs du Numérique du Togo</span>
+        </span>
+      </a>
+
+      <nav class="nav" id="nav">
+        <a href="#mission">Mission</a>
+        <a href="#sg">Mot du SG</a>
+        <a href="#bureau">Bureau</a>
+        <a href="#carte">Cartographie</a>
+        <a href="#donateurs">Donateurs</a>
+        <a href="#contact">Contact</a>
+        <a href="#adhesion" class="btn btn--primary" style="margin-top:6px;">Adhérer</a>
+      </nav>
+
+      <div class="header__cta">
+        <a href="#adhesion" class="btn btn--primary">Adhérer</a>
+        <button class="nav-toggle" id="navToggle" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="accueil">
+    <div class="container hero__inner">
+      <span class="hero__badge">🛡️ Syndicat officiel des métiers du numérique · Togo</span>
+      <h1>Défendre vos droits<br>dans l'ère <span class="accent">numérique</span>.</h1>
+      <p>Développeurs, ingénieurs réseaux, techniciens télécoms, experts en IA : le STNT est votre voix, votre bouclier et votre réseau de solidarité sur toute l'étendue du territoire togolais.</p>
+      <div class="hero__actions">
+        <a href="#adhesion" class="btn btn--primary">Rejoindre le STNT</a>
+        <a href="#contact" class="btn btn--ghost">Nous contacter</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BANDEAU ACTUALITÉS ============ -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker__inner">
+      <span>Assemblée Générale de lancement en préparation</span>
+      <span>Adhésion en ligne via T-Money & Moov Money</span>
+      <span>Formation continue pour les métiers du numérique</span>
+      <span>Assistance juridique pour les travailleurs</span>
+      <span>Assemblée Générale de lancement en préparation</span>
+      <span>Adhésion en ligne via T-Money & Moov Money</span>
+      <span>Formation continue pour les métiers du numérique</span>
+      <span>Assistance juridique pour les travailleurs</span>
+    </div>
+  </div>
+
+  <!-- ============ IMPACT ============ -->
+  <section class="section">
+    <div class="container">
+      <div class="impact">
+        <div class="stat reveal"><div class="stat__num" data-count="5">0</div><div class="stat__label">Régions couvertes</div></div>
+        <div class="stat reveal"><div class="stat__num" data-count="6">0</div><div class="stat__label">Métiers représentés</div></div>
+        <div class="stat reveal"><div class="stat__num" data-count="10">0</div><div class="stat__label">Membres du bureau</div></div>
+        <div class="stat reveal"><div class="stat__num" data-count="100">0</div><div class="stat__label">% en ligne &amp; sécurisé</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MISSION ============ -->
+  <section class="section section--gris" id="mission">
+    <div class="container">
+      <div class="section__head">
+        <span class="section__tag">Notre raison d'être</span>
+        <h2 class="section__title">Un syndicat moderne pour un secteur d'avenir</h2>
+        <p class="section__subtitle">À l'ère de la transformation digitale, les travailleurs du numérique méritent une représentation à la hauteur de leur contribution à l'économie togolaise.</p>
+      </div>
+      <div class="grid grid--3">
+        <div class="card reveal"><div class="card__icon">⚖️</div><h3>Défense des droits</h3><p>Protéger les travailleurs du numérique face aux abus, sécuriser les contrats et accompagner les litiges avec un service d'affaires juridiques dédié.</p></div>
+        <div class="card reveal"><div class="card__icon">🎓</div><h3>Formation continue</h3><p>Webinaires, montée en compétence et certifications pour rester à la pointe : IA, cybersécurité, réseaux, data engineering.</p></div>
+        <div class="card reveal"><div class="card__icon">🤝</div><h3>Solidarité</h3><p>Une caisse de solidarité et un réseau d'entraide entre membres, pour faire face aux imprévus de la vie professionnelle.</p></div>
+        <div class="card reveal"><div class="card__icon">🏛️</div><h3>Représentation</h3><p>Porter la voix du secteur auprès de l'État, des entreprises et des institutions, et peser dans les décisions qui concernent le numérique.</p></div>
+        <div class="card reveal"><div class="card__icon">🎥</div><h3>Vie démocratique</h3><p>Des assemblées générales accessibles en visioconférence où que vous soyez, pour une gouvernance transparente et participative.</p></div>
+        <div class="card reveal"><div class="card__icon">🌍</div><h3>Inclusion</h3><p>Promouvoir l'équité, la place des femmes et des jeunes dans les métiers du numérique partout au Togo.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MOT DU SG ============ -->
+  <section class="section section--nuit" id="sg">
+    <div class="container">
+      <div class="sg">
+        <div class="sg__photo reveal">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12c2.7 0 4.9-2.2 4.9-4.9S14.7 2.2 12 2.2 7.1 4.4 7.1 7.1 9.3 12 12 12zm0 2.4c-3.3 0-9.8 1.6-9.8 4.9v2.4h19.6v-2.4c0-3.3-6.5-4.9-9.8-4.9z"/></svg>
+        </div>
+        <div class="reveal">
+          <span class="section__tag">Le mot du Secrétaire Général</span>
+          <p class="sg__quote">Chers camarades, travailleurs du numérique du Togo, bienvenue sur votre plateforme. À l'ère de la transformation digitale, notre syndicat se devait d'être à la pointe de l'innovation. Ce site n'est pas seulement une vitrine, c'est notre outil de combat, de solidarité et de transparence. Que vous soyez développeur, ingénieur réseau, technicien télécom ou expert en IA, votre place est ici. Ensemble, sécurisons nos carrières et bâtissons l'avenir numérique du Togo. La force du réseau, c'est chacun de nous.</p>
+          <div class="sg__author">
+            <strong>Le Secrétaire Général du STNT</strong>
+            <span>Bureau National · Mandat 2026</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BUREAU NATIONAL ============ -->
+  <section class="section" id="bureau">
+    <div class="container">
+      <div class="section__head">
+        <span class="section__tag">Gouvernance</span>
+        <h2 class="section__title">Le Bureau National</h2>
+        <p class="section__subtitle">Une équipe de 10 responsables élus, couvrant tous les aspects stratégiques de la vie syndicale.</p>
+      </div>
+      <div class="grid grid--4" id="bureauGrid"><!-- injecté par JS --></div>
+    </div>
+  </section>
+
+  <!-- ============ ADHÉSION ============ -->
+  <section class="section section--gris" id="adhesion">
+    <div class="container">
+      <div class="section__head">
+        <span class="section__tag">Rejoignez-nous</span>
+        <h2 class="section__title">Adhérer au STNT</h2>
+        <p class="section__subtitle">Quelques minutes suffisent. Adhésion validée, carte de membre numérique délivrée.</p>
+      </div>
+      <div class="join">
+        <div class="join__intro reveal">
+          <h3>Pourquoi adhérer ?</h3>
+          <p>Devenir membre, c'est rejoindre une communauté qui défend concrètement vos intérêts professionnels et vous donne accès à des services exclusifs.</p>
+          <ul class="join__list">
+            <li>Carte de membre numérique avec votre photo</li>
+            <li>Accès aux assemblées générales en visioconférence</li>
+            <li>Assistance juridique et caisse de solidarité</li>
+            <li>Webinaires et formations réservés aux membres</li>
+            <li>Newsletter et alertes du secteur en temps réel</li>
+            <li>Votre région valorisée sur la cartographie nationale</li>
+          </ul>
+        </div>
+
+        <form class="form reveal" id="joinForm" novalidate>
+          <div class="form__row">
+            <label for="nom">Nom complet *</label>
+            <input type="text" id="nom" name="nom" placeholder="Vos nom et prénoms" required />
+          </div>
+          <div class="form__row form__row--2">
+            <div>
+              <label for="email">Email *</label>
+              <input type="email" id="email" name="email" placeholder="vous@exemple.tg" required />
+            </div>
+            <div>
+              <label for="tel">Téléphone (T-Money / Moov) *</label>
+              <input type="tel" id="tel" name="tel" placeholder="+228 ..." required />
+            </div>
+          </div>
+          <div class="form__row form__row--2">
+            <div>
+              <label for="region">Région *</label>
+              <select id="region" name="region" required>
+                <option value="">Choisir...</option>
+                <option>Maritime</option><option>Plateaux</option>
+                <option>Centrale</option><option>Kara</option><option>Savanes</option>
+              </select>
+            </div>
+            <div>
+              <label for="metier">Métier *</label>
+              <select id="metier" name="metier" required>
+                <option value="">Choisir...</option>
+                <option>Développement</option><option>Réseaux</option>
+                <option>Télécoms</option><option>Intelligence Artificielle</option>
+                <option>Data / Big Data</option><option>Cybersécurité</option><option>Autre</option>
+              </select>
+            </div>
+          </div>
+          <div class="form__row">
+            <label>Photo d'identité (format passeport)</label>
+            <label class="form__photo" for="photo" id="photoLabel">📸 Prendre ou ajouter une photo (JPEG / PNG)</label>
+            <input type="file" id="photo" name="photo" accept="image/*" capture="user" hidden />
+          </div>
+          <div class="form__row">
+            <label class="form__consent">
+              <input type="checkbox" id="consent" required />
+              <span>J'accepte que mes données soient traitées par le STNT conformément à la politique de confidentialité (Loi togolaise n° 2019-014).</span>
+            </label>
+          </div>
+          <button type="submit" class="btn btn--primary">Payer mon adhésion</button>
+          <div class="form__pay">
+            <span class="pay-chip">T-Money</span>
+            <span class="pay-chip">Moov Money</span>
+            <span class="pay-chip">Visa / Mastercard</span>
+          </div>
+          <p class="form__note">Maquette de démonstration. Le paiement réel (Paygate.tg / Stripe) sera branché en Phase 2.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CARTOGRAPHIE ============ -->
+  <section class="section" id="carte">
+    <div class="container">
+      <div class="section__head">
+        <span class="section__tag">Notre force sur le terrain</span>
+        <h2 class="section__title">Cartographie des membres</h2>
+        <p class="section__subtitle">Une vue anonymisée de la densité syndicale par région. Aucun nom ni adresse exacte n'est affiché publiquement.</p>
+      </div>
+      <div id="map"></div>
+      <div class="map-legend">
+        <span><i class="dot" style="background:#10B981"></i> Forte présence</span>
+        <span><i class="dot" style="background:#2563EB"></i> Présence moyenne</span>
+        <span><i class="dot" style="background:#94a3b8"></i> À développer</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DONATEURS ============ -->
+  <section class="section section--gris" id="donateurs">
+    <div class="container">
+      <div class="section__head">
+        <span class="section__tag">Honneur &amp; Legs</span>
+        <h2 class="section__title">Nos donateurs &amp; partenaires</h2>
+        <p class="section__subtitle">Particuliers, entreprises et diaspora : merci à ceux qui soutiennent le numérique togolais. Dons par carte bancaire pour les soutiens internationaux.</p>
+      </div>
+      <div class="donors">
+        <div class="donor-wall reveal">
+          <div class="donor"><div class="donor__logo">G</div><strong>GTEC SARLU</strong><span>Partenaire fondateur</span></div>
+          <div class="donor"><div class="donor__logo">★</div><strong>Donateur</strong><span>Mécène individuel</span></div>
+          <div class="donor"><div class="donor__logo">🌍</div><strong>Diaspora TG</strong><span>Soutien international</span></div>
+          <div class="donor"><div class="donor__logo">+</div><strong>Votre nom ici</strong><span>Devenez mécène</span></div>
+          <div class="donor"><div class="donor__logo">🏢</div><strong>Entreprise</strong><span>Partenaire numérique</span></div>
+          <div class="donor"><div class="donor__logo">🤍</div><strong>Anonyme</strong><span>Don confidentiel</span></div>
+        </div>
+        <div class="transparency reveal">
+          <h3>Transparence des fonds</h3>
+          <div class="bar"><div class="bar__head"><span>Formation &amp; webinaires</span><span>40%</span></div><div class="bar__track"><div class="bar__fill" style="width:40%;background:var(--cobalt)"></div></div></div>
+          <div class="bar"><div class="bar__head"><span>Assistance juridique</span><span>30%</span></div><div class="bar__track"><div class="bar__fill" style="width:30%;background:var(--emeraude)"></div></div></div>
+          <div class="bar"><div class="bar__head"><span>Caisse de solidarité</span><span>20%</span></div><div class="bar__track"><div class="bar__fill" style="width:20%;background:#f59e0b"></div></div></div>
+          <div class="bar"><div class="bar__head"><span>Fonctionnement</span><span>10%</span></div><div class="bar__track"><div class="bar__fill" style="width:10%;background:var(--acier-light)"></div></div></div>
+          <a href="#contact" class="btn btn--outline" style="margin-top:14px;width:100%;justify-content:center;">Faire un don / un legs</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="section section--nuit" id="contact">
+    <div class="container">
+      <div class="section__head">
+        <span class="section__tag">Restons en lien</span>
+        <h2 class="section__title">Contactez le bureau</h2>
+      </div>
+      <div class="contact">
+        <div class="reveal">
+          <div class="contact__item"><div class="ico">✉️</div><div><strong>Email</strong><span>webmaster@stnt.tg</span></div></div>
+          <div class="contact__item"><div class="ico">📍</div><div><strong>Siège social</strong><span>Lomé, Togo</span></div></div>
+          <div class="contact__item"><div class="ico">💬</div><div><strong>WhatsApp</strong><span>Alertes du syndicat en temps réel</span></div></div>
+          <div class="contact__item"><div class="ico">🎥</div><div><strong>Assemblées</strong><span>En visioconférence, ouvertes aux membres à jour</span></div></div>
+        </div>
+        <form class="form reveal" id="contactForm" novalidate>
+          <div class="form__row"><label for="cnom">Nom</label><input type="text" id="cnom" placeholder="Votre nom" required /></div>
+          <div class="form__row"><label for="cemail">Email</label><input type="email" id="cemail" placeholder="vous@exemple.tg" required /></div>
+          <div class="form__row"><label for="cmsg">Message</label><input type="text" id="cmsg" placeholder="Votre message" required /></div>
+          <button type="submit" class="btn btn--cobalt">Envoyer</button>
+          <p class="form__note">Maquette : le formulaire sera relié à une boîte officielle en Phase 2.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <strong>STNT</strong>
+          <p>Syndicat des Travailleurs du Numérique du Togo. L'innovation au service de vos droits.</p>
+        </div>
+        <div>
+          <h5>Navigation</h5>
+          <ul>
+            <li><a href="#mission">Mission</a></li>
+            <li><a href="#bureau">Bureau National</a></li>
+            <li><a href="#adhesion">Adhérer</a></li>
+            <li><a href="#donateurs">Donateurs</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>Légal</h5>
+          <ul>
+            <li><a href="#">Mentions légales</a></li>
+            <li><a href="#">Politique de confidentialité</a></li>
+            <li><a href="#">Loi n° 2019-014</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; 2026 STNT — Syndicat des Travailleurs du Numérique du Togo. Tous droits réservés.</p>
+        <p class="footer__sign">Webmaster : <strong>Ing. BODJONA Bataka Pignanti</strong> · Développeur FullStack · Master Télécom &amp; Master IASIG · webmaster@stnt.tg</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast toast--ok" id="toast"></div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
