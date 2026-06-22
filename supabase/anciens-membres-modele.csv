@@ -1,0 +1,3 @@
+nom_complet,email,telephone,ville,region,metier,type_adhesion,statut_cotisation,consentement_rgpd,date_adhesion
+"EXEMPLE A SUPPRIMER - Kossi Adjavon","kossi@example.tg","+228 90 00 00 01","Lomé","Maritime","Développement","ancien","a_jour",true,2024-02-10
+"EXEMPLE A SUPPRIMER - Ama Doe","ama@example.tg","+228 91 00 00 02","Kara","Kara","Réseaux","ancien","en_attente",true,2023-11-05
