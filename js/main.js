@@ -5,6 +5,15 @@
 (function () {
   'use strict';
 
+  /* ---------- Client Supabase (optionnel) ---------- */
+  var sb = null;
+  (function () {
+    var cfg = window.STNT_SUPABASE;
+    if (cfg && cfg.url && cfg.anonKey && cfg.url.indexOf('VOTRE-PROJET') === -1 && window.supabase) {
+      try { sb = window.supabase.createClient(cfg.url, cfg.anonKey); } catch (e) { sb = null; }
+    }
+  })();
+
   /* ---------- Menu mobile ---------- */
   var navToggle = document.getElementById('navToggle');
   var nav = document.getElementById('nav');
@@ -97,12 +106,47 @@
   /* ---------- Soumission formulaires (maquette) ---------- */
   var joinForm = document.getElementById('joinForm');
   if (joinForm) {
+    var joinBtn = joinForm.querySelector('button[type="submit"]');
+    function resetJoin() {
+      joinForm.reset();
+      if (photoLabel) { photoLabel.textContent = '📸 Prendre ou ajouter une photo (JPEG / PNG)'; photoLabel.style.color = ''; }
+    }
     joinForm.addEventListener('submit', function (e) {
       e.preventDefault();
       if (!joinForm.checkValidity()) { joinForm.reportValidity(); return; }
-      showToast('Demande enregistrée (démo). En production : redirection vers le paiement T-Money / Moov.');
-      joinForm.reset();
-      if (photoLabel) { photoLabel.textContent = '📸 Prendre ou ajouter une photo (JPEG / PNG)'; photoLabel.style.color = ''; }
+
+      // Repli démo si Supabase n'est pas configuré
+      if (!sb) {
+        showToast('Demande enregistrée (démo). Backend non connecté.');
+        resetJoin();
+        return;
+      }
+
+      var data = {
+        nom_complet: joinForm.nom.value.trim(),
+        email: joinForm.email.value.trim().toLowerCase(),
+        telephone: joinForm.tel.value.trim(),
+        region: joinForm.region.value || null,
+        metier: joinForm.metier.value || null,
+        type_adhesion: 'nouveau',
+        statut_cotisation: 'en_attente',
+        consentement_rgpd: document.getElementById('consent').checked
+      };
+
+      if (joinBtn) { joinBtn.disabled = true; joinBtn.textContent = 'Enregistrement...'; }
+
+      sb.from('membres').insert([data]).then(function (res) {
+        if (joinBtn) { joinBtn.disabled = false; joinBtn.textContent = 'Payer mon adhésion'; }
+        if (res.error) {
+          var msg = (res.error.code === '23505')
+            ? 'Cet email est déjà inscrit au STNT.'
+            : 'Erreur lors de l\'inscription. Réessaie ou écris à webmaster@stnt-togo.org.';
+          showToast(msg);
+          return;
+        }
+        showToast('Adhésion enregistrée. Bienvenue au STNT ! Le paiement T-Money / Moov suivra.');
+        resetJoin();
+      });
     });
   }
   var contactForm = document.getElementById('contactForm');
