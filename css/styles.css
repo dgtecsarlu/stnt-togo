@@ -269,6 +269,12 @@ a { color: inherit; text-decoration: none; }
 .faq__item summary:hover { color: var(--cobalt); }
 .faq__item p { padding: 0 22px 20px; color: var(--acier-light); font-size: 0.96rem; }
 
+/* ---------- Solidarité ---------- */
+.solid-card__list { list-style: none; margin-top: 16px; padding-top: 16px; border-top: 1px solid #eef2f7; }
+.solid-card__list li { position: relative; padding: 6px 0 6px 26px; color: var(--acier); font-size: 0.9rem; }
+.solid-card__list li::before { content: '✓'; position: absolute; left: 0; top: 7px; width: 18px; height: 18px; background: var(--emeraude); color: #fff; border-radius: 50%; display: grid; place-items: center; font-size: 0.62rem; }
+.solid-cta { text-align: center; margin-top: 38px; }
+
 /* ---------- Contact ---------- */
 .contact { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; }
 .contact__item { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 22px; }
