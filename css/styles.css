@@ -388,3 +388,49 @@ select:focus-visible, summary:focus-visible, [tabindex]:focus-visible {
 
 @media (max-width: 900px) { .galerie-grid, .biblio-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .galerie-grid, .biblio-grid { grid-template-columns: 1fr; } }
+
+/* ============================================================
+   THÈME SOMBRE BLEU (harmonisé avec gtec-sarlu.com)
+   Header conservé clair pour la lisibilité du logo.
+   ============================================================ */
+:root {
+  --gris-bg: #0b2236;
+  --gris-card: rgba(255, 255, 255, 0.05);
+  --acier-light: #9fb6cb;
+}
+body { background: #081826; color: #eaf2f9; }
+
+.section--gris { background: #0b2236; }
+.section--nuit { background: #06121f; }
+
+/* Titres en clair */
+.section__title, .card h3, .member h4, .join__intro h3, .deleg-card__head h3,
+.donor strong, .transparency h3, .faq__item summary, .biblio-cat, .deleg-name {
+  color: #eaf2f9;
+}
+.stat__num { color: var(--cobalt-light); }
+
+/* Textes secondaires en clair (sélecteurs en --acier dans les sections) */
+.join__list li, .deleg-role, .bar__head, .galerie-item__bar, .form label,
+.comm-item p, .map-legend, .solid-card__list li { color: #9fb6cb; }
+
+/* Cartes : bordures et séparateurs */
+.card, .stat, .form, .deleg-card, .donor, .transparency, .faq__item,
+.biblio-doc, .galerie-item, .comm-item { border-color: rgba(255, 255, 255, 0.10); }
+.deleg-card__head, .deleg-bureau li { border-bottom-color: rgba(255, 255, 255, 0.10); }
+.solid-card__list { border-top-color: rgba(255, 255, 255, 0.12); }
+.faq__item summary:hover { color: var(--cobalt-light); }
+
+/* Avatars & barres */
+.member__avatar { background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(37,99,235,0.30)); color: #fff; border-color: rgba(255,255,255,0.15); }
+.bar__track { background: rgba(255, 255, 255, 0.12); }
+.donor__logo { color: var(--cobalt-light); }
+
+/* Formulaires sombres */
+.form input, .form select { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.16); color: #eaf2f9; }
+.form input::placeholder { color: #6f8aa3; }
+.form__photo { border-color: rgba(255,255,255,0.22); color: #9fb6cb; }
+.pay-chip { color: #9fb6cb; }
+
+/* Footer */
+.footer { background: #06121f; }
