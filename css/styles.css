@@ -361,3 +361,7 @@ select:focus-visible, summary:focus-visible, [tabindex]:focus-visible {
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
   .reveal { opacity: 1 !important; transform: none !important; }
 }
+
+/* ---------- Logo officiel ---------- */
+.brand__img { height: 46px; width: auto; display: block; border-radius: 6px; }
+@media (max-width: 560px) { .brand__img { height: 40px; } }

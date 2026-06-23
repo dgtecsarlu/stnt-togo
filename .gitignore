@@ -6,3 +6,12 @@ desktop.ini
 
 # Local Netlify folder
 .netlify
+
+# Documents du syndicat : servis via la bibliothèque Supabase (privée),
+# JAMAIS committés dans le dépôt public.
+assets/*.pdf
+assets/Carte membre*.jpeg
+assets/supabase-config.js
+
+# Config Supabase locale (la vraie est référencée à part)
+
