@@ -363,7 +363,7 @@ select:focus-visible, summary:focus-visible, [tabindex]:focus-visible {
 }
 
 /* ---------- Logo officiel ---------- */
-.brand__img { height: 64px; width: auto; display: block; border-radius: 6px; }
+.brand__img { height: 64px; width: auto; display: block; }
 @media (max-width: 560px) { .brand__img { height: 48px; } }
 
 /* ---------- Pages internes (galerie & bibliothèque) ---------- */
