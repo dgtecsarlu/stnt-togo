@@ -79,7 +79,32 @@
       }
     });
   }, { threshold: 0.15 });
-  document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+  document.querySelectorAll('.reveal').forEach(function (el) {
+    var parent = el.parentElement;
+    if (parent) {
+      var sibs = [].slice.call(parent.children).filter(function (c) { return c.classList.contains('reveal'); });
+      var idx = sibs.indexOf(el);
+      if (idx > 0) el.style.setProperty('--d', Math.min(idx * 70, 350) + 'ms');
+    }
+    io.observe(el);
+  });
+
+  /* ---------- Header au défilement + lien de navigation actif ---------- */
+  var header = document.querySelector('.header');
+  var navLinks = nav ? [].slice.call(nav.querySelectorAll('a[href^="#"]:not(.btn)')) : [];
+  var navSections = navLinks
+    .map(function (a) { return document.querySelector(a.getAttribute('href')); })
+    .filter(Boolean);
+  function onScroll() {
+    if (header) header.classList.toggle('scrolled', window.scrollY > 20);
+    var pos = window.scrollY + 90, current = null;
+    navSections.forEach(function (s) { if (s.offsetTop <= pos) current = s.id; });
+    navLinks.forEach(function (a) {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 
   /* ---------- Toast ---------- */
   var toast = document.getElementById('toast');
@@ -133,20 +158,38 @@
         consentement_rgpd: document.getElementById('consent').checked
       };
 
-      if (joinBtn) { joinBtn.disabled = true; joinBtn.textContent = 'Enregistrement...'; }
+      function doInsert(payload) {
+        if (joinBtn) { joinBtn.disabled = true; joinBtn.textContent = 'Enregistrement...'; }
+        sb.from('membres').insert([payload]).then(function (res) {
+          if (joinBtn) { joinBtn.disabled = false; joinBtn.textContent = 'Payer mon adhésion'; }
+          if (res.error) {
+            var msg = (res.error.code === '23505')
+              ? 'Cet email est déjà inscrit au STNT.'
+              : 'Erreur lors de l\'inscription. Réessaie ou écris à webmaster@stnt-togo.org.';
+            showToast(msg);
+            return;
+          }
+          showToast('Adhésion enregistrée. Bienvenue au STNT ! Le paiement T-Money / Moov suivra.');
+          resetJoin();
+        });
+      }
 
-      sb.from('membres').insert([data]).then(function (res) {
-        if (joinBtn) { joinBtn.disabled = false; joinBtn.textContent = 'Payer mon adhésion'; }
-        if (res.error) {
-          var msg = (res.error.code === '23505')
-            ? 'Cet email est déjà inscrit au STNT.'
-            : 'Erreur lors de l\'inscription. Réessaie ou écris à webmaster@stnt-togo.org.';
-          showToast(msg);
-          return;
-        }
-        showToast('Adhésion enregistrée. Bienvenue au STNT ! Le paiement T-Money / Moov suivra.');
-        resetJoin();
-      });
+      // Upload de la photo (si fournie et bucket disponible), sinon inscription sans photo
+      var file = (photo && photo.files && photo.files[0]) ? photo.files[0] : null;
+      if (file) {
+        if (joinBtn) { joinBtn.disabled = true; joinBtn.textContent = 'Envoi de la photo...'; }
+        var ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+        var path = Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '.' + ext;
+        sb.storage.from('membres-photos').upload(path, file).then(function (up) {
+          if (!up.error) {
+            var pub = sb.storage.from('membres-photos').getPublicUrl(path);
+            if (pub && pub.data) data.photo_url = pub.data.publicUrl;
+          }
+          doInsert(data);
+        });
+      } else {
+        doInsert(data);
+      }
     });
   }
   var contactForm = document.getElementById('contactForm');
