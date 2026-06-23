@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galerie des activités — STNT</title>
+  <meta name="description" content="Photos et vidéos des activités du Syndicat des Travailleurs du Numérique du Togo." />
+  <meta name="theme-color" content="#0B1E3F" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="header scrolled">
+    <div class="container header__inner">
+      <a href="index.html" class="brand"><img src="assets/Logo_STNT.PNG" alt="STNT" class="brand__img" /></a>
+      <a href="index.html" class="btn btn--outline">← Retour au site</a>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="section__tag">Vie du syndicat</span>
+      <h1>Galerie des activités</h1>
+      <p>Photos et vidéos de nos assemblées, formations et actions sur le terrain. Cliquez sur l'icône pour télécharger.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div id="galerieGrid" class="galerie-grid"><p class="page-loading">Chargement de la galerie…</p></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom">
+        <p>&copy; 2026 STNT — Syndicat des Travailleurs du Numérique du Togo.</p>
+        <p class="footer__sign">Webmaster : <strong>Ing. BODJONA Bataka Pignanti</strong> · webmaster@stnt-togo.org</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/galerie.js"></script>
+</body>
+</html>

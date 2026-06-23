@@ -365,3 +365,26 @@ select:focus-visible, summary:focus-visible, [tabindex]:focus-visible {
 /* ---------- Logo officiel ---------- */
 .brand__img { height: 46px; width: auto; display: block; border-radius: 6px; }
 @media (max-width: 560px) { .brand__img { height: 40px; } }
+
+/* ---------- Pages internes (galerie & bibliothèque) ---------- */
+.page-hero { background: linear-gradient(135deg, var(--nuit), var(--nuit-2)); color: #fff; padding: 128px 0 56px; }
+.page-hero h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; margin-top: 12px; }
+.page-hero p { color: #cbd5e1; margin-top: 12px; max-width: 620px; }
+.page-loading, .page-empty { text-align: center; color: var(--acier-light); padding: 44px 0; }
+
+.galerie-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.galerie-item { background: var(--gris-card); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); border: 1px solid #e9eef5; }
+.galerie-item img, .galerie-item video { width: 100%; height: 220px; object-fit: cover; display: block; background: #000; }
+.galerie-item__bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 14px; font-size: 0.85rem; color: var(--acier); }
+.galerie-dl { color: var(--cobalt); font-size: 1.2rem; text-decoration: none; flex-shrink: 0; }
+
+.biblio-gate .form { max-width: 440px; margin: 0 auto; }
+.biblio-cat { color: var(--nuit); margin: 28px 0 14px; font-size: 1.15rem; border-left: 3px solid var(--emeraude); padding-left: 12px; }
+.biblio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.biblio-doc { display: flex; align-items: center; gap: 12px; background: var(--gris-card); border: 1px solid #e9eef5; border-radius: 10px; padding: 16px; box-shadow: var(--shadow); color: var(--nuit); text-decoration: none; transition: var(--transition); }
+.biblio-doc:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); color: var(--cobalt); }
+.biblio-doc__ico { font-size: 1.6rem; }
+.biblio-doc__t { font-weight: 600; font-size: 0.92rem; }
+
+@media (max-width: 900px) { .galerie-grid, .biblio-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .galerie-grid, .biblio-grid { grid-template-columns: 1fr; } }

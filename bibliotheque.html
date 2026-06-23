@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bibliothèque — STNT</title>
+  <meta name="description" content="Espace documentaire réservé du Syndicat des Travailleurs du Numérique du Togo." />
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#0B1E3F" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="header scrolled">
+    <div class="container header__inner">
+      <a href="index.html" class="brand"><img src="assets/Logo_STNT.PNG" alt="STNT" class="brand__img" /></a>
+      <a href="index.html" class="btn btn--outline">← Retour au site</a>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="section__tag">Accès réservé</span>
+      <h1>Bibliothèque du STNT</h1>
+      <p>Les documents officiels du syndicat (statuts, règlement, procès-verbaux, modèles). Entrez votre code d'accès pour consulter.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div id="biblioGate" class="biblio-gate">
+        <form id="biblioForm" class="form">
+          <div class="form__row">
+            <label for="code">Code d'accès</label>
+            <input type="password" id="code" autocomplete="off" required placeholder="Votre code confidentiel" />
+          </div>
+          <button type="submit" class="btn btn--cobalt">Accéder aux documents</button>
+          <p id="biblioMsg" class="form__note"></p>
+        </form>
+      </div>
+      <div id="biblioList" class="biblio-list" hidden></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom">
+        <p>&copy; 2026 STNT — Syndicat des Travailleurs du Numérique du Togo.</p>
+        <p class="footer__sign">Webmaster : <strong>Ing. BODJONA Bataka Pignanti</strong> · webmaster@stnt-togo.org</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/supabase-config.js"></script>
+  <script src="js/bibliotheque.js"></script>
+</body>
+</html>
