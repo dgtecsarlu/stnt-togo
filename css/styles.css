@@ -439,3 +439,38 @@ body { background: #081826; color: #eaf2f9; }
    (le CTA dédié à droite suffit) et ne réapparaît que dans le menu mobile ouvert. */
 .nav .btn--primary { display: none; }
 .nav.open .btn--primary { display: inline-flex; }
+
+/* ============================================================
+   FINITIONS PREMIUM (thème sombre)
+   ============================================================ */
+
+/* Sélection de texte & barre de défilement aux couleurs de la marque */
+::selection { background: rgba(37, 99, 235, 0.40); color: #fff; }
+html { scrollbar-color: #20406a #081826; scrollbar-width: thin; }
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: #081826; }
+::-webkit-scrollbar-thumb { background: #20406a; border-radius: 8px; border: 3px solid #081826; }
+::-webkit-scrollbar-thumb:hover { background: #2b5694; }
+
+/* Cartes effet "verre" + lueur cobalt au survol */
+.card, .stat, .form, .deleg-card, .donor, .transparency, .faq__item, .biblio-doc, .galerie-item {
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.card:hover, .deleg-card:hover, .biblio-doc:hover, .galerie-item:hover {
+  border-color: rgba(37, 99, 235, 0.45);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.38), 0 0 0 1px rgba(37, 99, 235, 0.18);
+}
+
+/* Chiffres d'impact en dégradé cobalt -> émeraude */
+.stat__num {
+  background: linear-gradient(120deg, var(--cobalt-light), var(--emeraude-light));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+
+/* Séparation fine entre les sections pour structurer la profondeur */
+.section { border-top: 1px solid rgba(255, 255, 255, 0.05); }
+
+/* Carte SIG encadrée pour s'intégrer au thème sombre */
+#map { border: 1px solid rgba(255, 255, 255, 0.12); }
