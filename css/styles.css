@@ -474,3 +474,43 @@ html { scrollbar-color: #20406a #081826; scrollbar-width: thin; }
 
 /* Carte SIG encadrée pour s'intégrer au thème sombre */
 #map { border: 1px solid rgba(255, 255, 255, 0.12); }
+
+/* ============================================================
+   RENDU PREMIUM v3 : header sombre, accents chauds, hero, typo
+   ============================================================ */
+:root { --orange: #f7941e; --gold: #ead9a0; }
+
+/* --- En-tête sombre translucide (logo lisible via halo blanc, sans fond) --- */
+.header { background: rgba(8, 24, 38, 0.70); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+.header.scrolled { background: rgba(8, 24, 38, 0.93); box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35); }
+.nav a { color: #cfe0ee; }
+.nav a:hover, .nav a.active:not(.btn) { color: var(--cobalt-light); }
+.nav-toggle span { background: #eaf2f9; }
+.btn--outline { color: #cfe0ee; border-color: rgba(255, 255, 255, 0.30); }
+.btn--outline:hover { background: var(--cobalt); color: #fff; border-color: var(--cobalt); }
+.brand__img { filter: drop-shadow(0 0 1.5px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 4px rgba(255, 255, 255, 0.45)); }
+.nav.open { background: #0b2236; border-bottom-color: rgba(255, 255, 255, 0.10); }
+.nav.open a { color: #eaf2f9; }
+
+/* --- Accents chauds (clin d'œil GEOTECH) --- */
+.hero h1 .accent {
+  background: linear-gradient(110deg, var(--gold), var(--orange));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.section__head .section__title::after {
+  content: ''; display: block; width: 56px; height: 3px; margin: 16px auto 0;
+  background: linear-gradient(90deg, var(--gold), var(--orange)); border-radius: 2px;
+}
+
+/* --- Hero plus impactant --- */
+.hero { padding-top: 180px; }
+.hero h1 { font-size: clamp(2.4rem, 5.4vw, 3.9rem); letter-spacing: -0.02em; }
+.hero p { font-size: 1.2rem; }
+.hero::after { animation: heroGlow 8s ease-in-out infinite alternate; }
+@keyframes heroGlow { from { opacity: 0.16; } to { opacity: 0.34; } }
+
+/* --- Typographie plus aérée et premium --- */
+.section { padding-top: 96px; padding-bottom: 96px; }
+.section__title { font-size: clamp(1.9rem, 3.8vw, 2.7rem); letter-spacing: -0.015em; }
+.section__head { margin-bottom: 58px; }
