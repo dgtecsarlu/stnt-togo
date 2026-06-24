@@ -1,7 +1,7 @@
 # ============================================================
 # STNT — Image Docker du site officiel (statique, servi par nginx)
-# Build : docker build -t gtecsarlu/stnt-togo:latest .
-# Run   : docker run -p 8080:80 gtecsarlu/stnt-togo:latest
+# Build : docker build -t dgtecsarlu/stnt-togo:latest .
+# Run   : docker run -p 8080:80 dgtecsarlu/stnt-togo:latest
 # ============================================================
 FROM nginx:1.27-alpine
 
