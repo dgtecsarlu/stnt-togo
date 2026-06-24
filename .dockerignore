@@ -1,0 +1,12 @@
+# Exclus de l'image Docker (non servis par le site)
+.git
+.gitignore
+.github
+supabase
+*.sql
+README.md
+CAHIER-DES-CHARGES.md
+Dockerfile
+.dockerignore
+nginx.conf
+*.md
