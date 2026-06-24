@@ -15,8 +15,8 @@
 |--------|-------|
 | Frontend | Next.js 14+ (App Router) + Tailwind CSS |
 | Backend / Auth / Storage | Supabase (PostgreSQL + PostGIS) |
-| Paiement local | Paygate.tg ou Semoa (T-Money & Moov Money) |
-| Paiement international | Stripe (Visa / Mastercard / Amex), dons récurrents |
+| Paiement (mobile money + carte) | CinetPay — Mixx By Yas, Flooz & cartes Visa/Mastercard (page hébergée) |
+| Paiement international | Carte bancaire via CinetPay (diaspora) ; dons récurrents en option |
 | Cartographie SIG | Leaflet.js + clustering, PostGIS |
 | Visioconférence | API Jitsi Meet |
 | Email / SMS | Brevo (email) + passerelle SMS togolaise (Semoa / SMSUp) |
@@ -31,8 +31,8 @@
 - Case de consentement obligatoire (Loi 2019-014).
 
 ### 3.2 Paiements (double passerelle)
-- **National** : T-Money & Moov via Paygate/Semoa, reçu PDF auto, relances automatiques email/SMS.
-- **International** : Stripe pour dons & legs, option dons récurrents mensuels.
+- **Mobile money** : Mixx By Yas & Flooz via CinetPay, reçu PDF auto, relances automatiques email/SMS.
+- **Carte bancaire** : Visa / Mastercard via CinetPay (dons de la diaspora & legs), option dons récurrents.
 - Statut membre passe à « à jour » dès validation du paiement (débloque l'espace visio).
 
 ### 3.3 Espace membre
@@ -136,7 +136,7 @@ CREATE TABLE audit_logs (
 ## 7. Roadmap (estimation 8 semaines)
 
 1. **S1-2 — Fondations** : infra, domaine `stnt-togo.org`, schéma BDD, formulaire adhésion + photo, auth SG.
-2. **S3-4 — Flux financiers & SIG** : Paygate (T-Money/Moov), Stripe, carte interactive, cartes membres PDF.
+2. **S3-4 — Flux financiers & SIG** : CinetPay (Mixx By Yas / Flooz / carte), carte interactive, cartes membres PDF.
 3. **S5-6 — Interactivité** : Jitsi, newsletter, dashboard SG + RBAC, espace donateurs.
 4. **S7-8 — Tests & lancement** : bêta paiement, audit sécurité, formation SG/Trésorier, ouverture publique.
 

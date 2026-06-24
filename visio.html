@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assemblée Générale virtuelle — STNT</title>
+  <meta name="description" content="Participez aux assemblées générales du Syndicat des Travailleurs du Numérique du Togo en visioconférence." />
+  <meta name="theme-color" content="#0B1E3F" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="header scrolled">
+    <div class="container header__inner">
+      <a href="index.html" class="brand"><img src="assets/logo-stnt.png" alt="STNT" class="brand__img" /></a>
+      <a href="index.html" class="btn btn--outline">← Retour au site</a>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="section__tag">Vie démocratique</span>
+      <h1>Assemblée Générale virtuelle</h1>
+      <p>Participez aux assemblées générales du STNT en visioconférence, où que vous soyez. Réservé aux membres.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="visio-grid">
+        <div class="visio-main">
+          <div id="jitsi" class="visio-frame">
+            <div class="visio-fallback">
+              <p>Chargement de la salle de réunion…</p>
+              <a class="btn btn--primary" href="https://meet.jit.si/STNT-Assemblee-Generale-Nationale" target="_blank" rel="noopener">Ouvrir la salle dans un nouvel onglet</a>
+            </div>
+          </div>
+        </div>
+        <aside class="visio-side">
+          <div class="card">
+            <h3>Comment participer</h3>
+            <ul class="join__list">
+              <li>Autorisez votre micro et votre caméra</li>
+              <li>Indiquez vos nom et prénoms à l'entrée</li>
+              <li>Le bureau ouvre la salle aux horaires d'AG</li>
+              <li>Coupez votre micro sauf prise de parole</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Pour le bureau (animation)</h3>
+            <p>Le premier participant devient modérateur. Activez le <strong>lobby</strong> (salle d'attente) et un <strong>mot de passe</strong> pour réserver l'accès aux membres, et lancez l'<strong>enregistrement</strong> pour le procès-verbal.</p>
+          </div>
+        </aside>
+      </div>
+      <p class="form__note" style="text-align:center;margin-top:18px;">Visioconférence propulsée par Jitsi Meet (chiffrée, sans installation). Aucune donnée n'est stockée par le STNT.</p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom">
+        <p>&copy; 2026 STNT — Syndicat des Travailleurs du Numérique du Togo.</p>
+        <p class="footer__sign">Webmaster : <strong>Ing. BODJONA Bataka Pignanti</strong> · webmaster@stnt-togo.org</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://meet.jit.si/external_api.js"></script>
+  <script src="js/visio.js"></script>
+</body>
+</html>

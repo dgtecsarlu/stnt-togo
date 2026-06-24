@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Confirmation de paiement — STNT</title>
+  <meta name="description" content="Confirmation de votre paiement au Syndicat des Travailleurs du Numérique du Togo." />
+  <meta name="theme-color" content="#0B1E3F" />
+  <meta name="robots" content="noindex" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="header scrolled">
+    <div class="container header__inner">
+      <a href="index.html" class="brand"><img src="assets/logo-stnt.png" alt="STNT" class="brand__img" /></a>
+      <a href="index.html" class="btn btn--outline">← Retour au site</a>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="section__tag">Paiement</span>
+      <h1>Confirmation de votre paiement</h1>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="pay-result" id="payResult">
+        <div class="pay-result__spinner" id="paySpinner"></div>
+        <h2 id="payTitle">Vérification du paiement…</h2>
+        <p id="payMsg">Merci de patienter quelques instants, nous confirmons votre transaction.</p>
+        <div id="payActions" class="pay-result__actions" hidden>
+          <a href="index.html" class="btn btn--primary">Retour à l'accueil</a>
+          <a href="index.html#contact" class="btn btn--ghost">Nous contacter</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom">
+        <p>&copy; 2026 STNT — Syndicat des Travailleurs du Numérique du Togo.</p>
+        <p class="footer__sign">Webmaster : <strong>Ing. BODJONA Bataka Pignanti</strong> · webmaster@stnt-togo.org</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/paiement-retour.js"></script>
+</body>
+</html>

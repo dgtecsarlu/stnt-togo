@@ -514,3 +514,72 @@ html { scrollbar-color: #20406a #081826; scrollbar-width: thin; }
 .section { padding-top: 96px; padding-bottom: 96px; }
 .section__title { font-size: clamp(1.9rem, 3.8vw, 2.7rem); letter-spacing: -0.015em; }
 .section__head { margin-bottom: 58px; }
+
+/* ---------- Visioconférence (AG virtuelles) ---------- */
+.visio-grid { display: grid; grid-template-columns: 1fr 320px; gap: 24px; align-items: start; }
+.visio-frame { height: 640px; border-radius: 14px; overflow: hidden; border: 1px solid rgba(255,255,255,0.12); background: #06121f; box-shadow: var(--shadow-lg); }
+.visio-frame iframe { width: 100% !important; height: 100% !important; border: 0; display: block; }
+.visio-fallback { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; color: #9fb6cb; text-align: center; padding: 20px; }
+.visio-side { display: flex; flex-direction: column; gap: 18px; }
+@media (max-width: 880px) { .visio-grid { grid-template-columns: 1fr; } .visio-frame { height: 520px; } }
+
+/* ============================================================
+   PAIEMENTS : cotisation, don, page de retour
+   ============================================================ */
+
+/* Bloc « Déjà adhérent ? » + bloc don : carte verre centrée */
+.cotisation, .don {
+  max-width: 720px; margin: 40px auto 0; padding: 30px;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.10);
+  border-radius: var(--radius); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+}
+.cotisation__head, .don__head { text-align: center; margin-bottom: 22px; }
+.cotisation__head h3, .don__head h3 { font-size: 1.3rem; color: #eaf2f9; }
+.cotisation__head p, .don__head p { color: #9fb6cb; margin-top: 8px; font-size: 0.96rem; }
+
+/* Montants de don suggérés */
+.don__amounts { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+.don-chip {
+  flex: 1 1 auto; min-width: 84px; padding: 12px 10px; cursor: pointer;
+  font-weight: 700; font-size: 0.98rem; color: #cfe0ee;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 10px; transition: var(--transition);
+}
+.don-chip:hover { border-color: var(--cobalt); color: #fff; }
+.don-chip.is-active { background: var(--cobalt); border-color: var(--cobalt); color: #fff; }
+
+/* Page de retour après paiement */
+.pay-result {
+  max-width: 620px; margin: 0 auto; text-align: center; padding: 44px 30px;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.10);
+  border-radius: var(--radius);
+}
+.pay-result h2 { font-size: 1.5rem; color: #eaf2f9; margin-bottom: 10px; }
+.pay-result p { color: #9fb6cb; }
+.pay-result--ok { border-color: rgba(16,185,129,0.45); box-shadow: 0 0 0 1px rgba(16,185,129,0.18); }
+.pay-result--error { border-color: rgba(239,68,68,0.45); }
+.pay-result--pending { border-color: rgba(247,148,30,0.45); }
+.pay-result__actions { display: flex; gap: 12px; justify-content: center; margin-top: 24px; flex-wrap: wrap; }
+.pay-result__spinner {
+  width: 48px; height: 48px; margin: 0 auto 22px; border-radius: 50%;
+  border: 4px solid rgba(255,255,255,0.15); border-top-color: var(--cobalt-light);
+  animation: paySpin 0.9s linear infinite;
+}
+@keyframes paySpin { to { transform: rotate(360deg); } }
+
+/* ============================================================
+   ONGLETS Adhésion : nouvel adhérent / ancien membre
+   ============================================================ */
+.adh-tabs {
+  display: flex; gap: 8px; max-width: 420px; margin: 0 auto 34px;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 12px; padding: 6px;
+}
+.adh-tab {
+  flex: 1; cursor: pointer; padding: 12px 14px; border: 0; border-radius: 8px;
+  font-weight: 700; font-size: 0.95rem; color: #9fb6cb; background: transparent;
+  transition: var(--transition);
+}
+.adh-tab:hover { color: #eaf2f9; }
+.adh-tab.is-active { background: var(--cobalt); color: #fff; box-shadow: 0 6px 16px rgba(37,99,235,0.35); }
+.adh-panel[hidden] { display: none; }

@@ -20,11 +20,18 @@ Ouvrir `index.html` dans un navigateur. Aucune installation, aucun build. Une co
 
 Ces éléments ont une interface mais **aucun backend** branché pour l'instant :
 
-- Formulaire d'adhésion (capture photo, champs) : affiche un message de confirmation de démo
-- Boutons de paiement (T-Money / Moov / carte) : non connectés
 - Cartographie : données de densité par région **fictives** (anonymisées)
 - Bureau National : noms en `[Nom à renseigner]`
 - Formulaire de contact : non relié à une boîte mail
+
+## Ce qui est connecté (backend Supabase)
+
+- **Adhésion + paiement** : frais d'adhésion réglés par **Mixx By Yas / Flooz / carte bancaire** via CinetPay
+- **Cotisation** : renouvellement en ligne (bloc « Déjà adhérent ? »)
+- **Dons** : caisse de solidarité, montants libres ou suggérés, paiement par mobile money ou carte
+- **Bibliothèque** privée (code d'accès) et **Galerie** publique
+
+> Mise en service des paiements : voir [`supabase/PAIEMENTS.md`](supabase/PAIEMENTS.md).
 
 ## Personnalisation rapide
 

@@ -73,6 +73,7 @@
         <a href="#faq">FAQ</a>
         <a href="galerie.html">Galerie</a>
         <a href="bibliotheque.html">Bibliothèque</a>
+        <a href="visio.html">Visio AG</a>
         <a href="#contact">Contact</a>
         <a href="#adhesion" class="btn btn--primary" style="margin-top:6px;">Adhérer</a>
       </nav>
@@ -104,11 +105,11 @@
   <div class="ticker" aria-hidden="true">
     <div class="ticker__inner">
       <span>Assemblée Générale de renouvellement du bureau exécutif en préparation</span>
-      <span>Adhésion en ligne via T-Money & Moov Money</span>
+      <span>Adhésion en ligne via Mixx By Yas, Flooz & carte bancaire</span>
       <span>Formation continue pour les métiers du numérique</span>
       <span>Assistance juridique pour les travailleurs</span>
       <span>Assemblée Générale de renouvellement du bureau exécutif en préparation</span>
-      <span>Adhésion en ligne via T-Money & Moov Money</span>
+      <span>Adhésion en ligne via Mixx By Yas, Flooz & carte bancaire</span>
       <span>Formation continue pour les métiers du numérique</span>
       <span>Assistance juridique pour les travailleurs</span>
     </div>
@@ -170,7 +171,7 @@
           <p>L'épargne rotative en version numérique : des groupes de 10 membres cotisent chaque mois, et chacun reçoit la cagnotte à tour de rôle.</p>
           <ul class="solid-card__list">
             <li>Groupes de 10 personnes</li>
-            <li>Cotisations par T-Money / Moov Money</li>
+            <li>Cotisations par Mixx By Yas / Flooz</li>
             <li>Rotation automatique et tracée</li>
           </ul>
         </div>
@@ -292,8 +293,17 @@
       <div class="section__head">
         <span class="section__tag">Rejoignez-nous</span>
         <h2 class="section__title">Adhérer au STNT</h2>
-        <p class="section__subtitle">Quelques minutes suffisent. Adhésion validée, carte de membre numérique délivrée.</p>
+        <p class="section__subtitle">Quelques minutes suffisent. Adhésion soumise à la validation du Secrétaire Général, carte de membre numérique délivrée.</p>
       </div>
+
+      <!-- Onglets : nouvel adhérent / ancien membre -->
+      <div class="adh-tabs reveal" role="tablist">
+        <button type="button" class="adh-tab is-active" data-tab="nouveau" role="tab" aria-selected="true">Nouvel adhérent</button>
+        <button type="button" class="adh-tab" data-tab="ancien" role="tab" aria-selected="false">Ancien membre</button>
+      </div>
+
+      <!-- Panneau : nouvel adhérent (avec paiement des frais) -->
+      <div class="adh-panel" data-panel="nouveau">
       <div class="join">
         <div class="join__intro reveal">
           <h3>Pourquoi adhérer ?</h3>
@@ -319,7 +329,7 @@
               <input type="email" id="email" name="email" placeholder="vous@exemple.tg" required />
             </div>
             <div>
-              <label for="tel">Téléphone (T-Money / Moov) *</label>
+              <label for="tel">Téléphone (Mixx By Yas / Flooz) *</label>
               <input type="tel" id="tel" name="tel" placeholder="+228 ..." required />
             </div>
           </div>
@@ -355,11 +365,107 @@
           </div>
           <button type="submit" class="btn btn--primary">Payer mon adhésion</button>
           <div class="form__pay">
-            <span class="pay-chip">T-Money</span>
-            <span class="pay-chip">Moov Money</span>
+            <span class="pay-chip">Mixx By Yas</span>
+            <span class="pay-chip">Flooz</span>
             <span class="pay-chip">Visa / Mastercard</span>
           </div>
-          <p class="form__note">Maquette de démonstration. Le paiement réel (Paygate.tg / Stripe) sera branché en Phase 2.</p>
+          <p class="form__note">Paiement sécurisé par CinetPay. Vous serez redirigé pour régler par Mixx By Yas, Flooz ou carte bancaire.</p>
+        </form>
+      </div>
+      </div><!-- /panneau nouveau -->
+
+      <!-- Panneau : ancien membre (mise à jour des infos, SANS frais) -->
+      <div class="adh-panel" data-panel="ancien" hidden>
+      <div class="join">
+        <div class="join__intro reveal">
+          <h3>Vous êtes déjà membre ?</h3>
+          <p>Mettez à jour vos informations pour figurer dans le nouveau registre du STNT. <strong>Aucun frais d'inscription à payer.</strong> Votre dossier sera soumis à la validation du Secrétaire Général.</p>
+          <ul class="join__list">
+            <li>Mise à jour de votre fiche (coordonnées, région, métier, photo)</li>
+            <li>Pas de paiement des frais d'adhésion</li>
+            <li>Conservation de votre ancienneté au syndicat</li>
+            <li>Validation par le Secrétaire Général</li>
+          </ul>
+        </div>
+
+        <form class="form reveal" id="ancienForm" novalidate>
+          <div class="form__row">
+            <label for="aNom">Nom complet *</label>
+            <input type="text" id="aNom" name="aNom" placeholder="Vos nom et prénoms" required />
+          </div>
+          <div class="form__row form__row--2">
+            <div>
+              <label for="aEmail">Email *</label>
+              <input type="email" id="aEmail" name="aEmail" placeholder="vous@exemple.tg" required />
+            </div>
+            <div>
+              <label for="aTel">Téléphone (Mixx By Yas / Flooz) *</label>
+              <input type="tel" id="aTel" name="aTel" placeholder="+228 ..." required />
+            </div>
+          </div>
+          <div class="form__row form__row--2">
+            <div>
+              <label for="aRegion">Région *</label>
+              <select id="aRegion" name="aRegion" required>
+                <option value="">Choisir...</option>
+                <option>Maritime</option><option>Plateaux</option>
+                <option>Centrale</option><option>Kara</option><option>Savanes</option>
+              </select>
+            </div>
+            <div>
+              <label for="aMetier">Métier *</label>
+              <select id="aMetier" name="aMetier" required>
+                <option value="">Choisir...</option>
+                <option>Développement</option><option>Réseaux</option>
+                <option>Télécoms</option><option>Intelligence Artificielle</option>
+                <option>Data / Big Data</option><option>Cybersécurité</option><option>Autre</option>
+              </select>
+            </div>
+          </div>
+          <div class="form__row">
+            <label>Photo d'identité (format passeport)</label>
+            <label class="form__photo" for="aPhoto" id="aPhotoLabel">📸 Prendre ou ajouter une photo (JPEG / PNG)</label>
+            <input type="file" id="aPhoto" name="aPhoto" accept="image/*" capture="user" hidden />
+          </div>
+          <div class="form__row">
+            <label class="form__consent">
+              <input type="checkbox" id="aConsent" required />
+              <span>J'accepte que mes données soient traitées par le STNT conformément à la politique de confidentialité (Loi togolaise n° 2019-014).</span>
+            </label>
+          </div>
+          <button type="submit" class="btn btn--cobalt">Mettre à jour mes informations</button>
+          <p class="form__note">Aucun frais. Votre inscription sera soumise à la validation du Secrétaire Général.</p>
+        </form>
+      </div>
+      </div><!-- /panneau ancien -->
+
+      <!-- Déjà membre : renouvellement de cotisation -->
+      <div class="cotisation reveal" id="cotisation">
+        <div class="cotisation__head">
+          <h3>Déjà adhérent ? Renouvelez votre cotisation</h3>
+          <p>Restez à jour pour conserver l'accès aux assemblées, à l'assistance juridique et à la caisse de solidarité.</p>
+        </div>
+        <form class="form form--inline" id="cotisationForm" novalidate>
+          <div class="form__row form__row--2">
+            <div>
+              <label for="cotNom">Nom complet *</label>
+              <input type="text" id="cotNom" name="cotNom" placeholder="Vos nom et prénoms" required />
+            </div>
+            <div>
+              <label for="cotEmail">Email *</label>
+              <input type="email" id="cotEmail" name="cotEmail" placeholder="vous@exemple.tg" required />
+            </div>
+          </div>
+          <div class="form__row">
+            <label for="cotTel">Téléphone (Mixx By Yas / Flooz)</label>
+            <input type="tel" id="cotTel" name="cotTel" placeholder="+228 ..." />
+          </div>
+          <button type="submit" class="btn btn--cobalt">Payer ma cotisation</button>
+          <div class="form__pay">
+            <span class="pay-chip">Mixx By Yas</span>
+            <span class="pay-chip">Flooz</span>
+            <span class="pay-chip">Visa / Mastercard</span>
+          </div>
         </form>
       </div>
     </div>
@@ -405,8 +511,54 @@
           <div class="bar"><div class="bar__head"><span>Assistance juridique</span><span>30%</span></div><div class="bar__track"><div class="bar__fill" style="width:30%;background:var(--emeraude)"></div></div></div>
           <div class="bar"><div class="bar__head"><span>Caisse de solidarité</span><span>20%</span></div><div class="bar__track"><div class="bar__fill" style="width:20%;background:#f59e0b"></div></div></div>
           <div class="bar"><div class="bar__head"><span>Fonctionnement</span><span>10%</span></div><div class="bar__track"><div class="bar__fill" style="width:10%;background:var(--acier-light)"></div></div></div>
-          <a href="#contact" class="btn btn--outline" style="margin-top:14px;width:100%;justify-content:center;">Faire un don / un legs</a>
+          <a href="#don" class="btn btn--outline" style="margin-top:14px;width:100%;justify-content:center;">Faire un don / un legs</a>
         </div>
+      </div>
+
+      <!-- Formulaire de don -->
+      <div class="don reveal" id="don">
+        <div class="don__head">
+          <h3>Soutenir le STNT</h3>
+          <p>Votre don alimente la caisse de solidarité et les actions du syndicat. Paiement par Mixx By Yas, Flooz ou carte bancaire (idéal pour la diaspora).</p>
+        </div>
+        <form class="form" id="donForm" novalidate>
+          <div class="form__row">
+            <label>Montant du don (FCFA) *</label>
+            <div class="don__amounts">
+              <button type="button" class="don-chip" data-don="1000">1 000</button>
+              <button type="button" class="don-chip" data-don="5000">5 000</button>
+              <button type="button" class="don-chip" data-don="10000">10 000</button>
+              <button type="button" class="don-chip" data-don="25000">25 000</button>
+            </div>
+            <input type="number" id="donMontant" name="donMontant" min="100" step="5" placeholder="Autre montant (min. 100 FCFA)" required />
+          </div>
+          <div class="form__row form__row--2">
+            <div>
+              <label for="donNom">Nom (facultatif)</label>
+              <input type="text" id="donNom" name="donNom" placeholder="Votre nom ou celui de l'entreprise" />
+            </div>
+            <div>
+              <label for="donEmail">Email (reçu)</label>
+              <input type="email" id="donEmail" name="donEmail" placeholder="vous@exemple.com" />
+            </div>
+          </div>
+          <div class="form__row">
+            <label for="donTel">Téléphone (si Mixx By Yas / Flooz)</label>
+            <input type="tel" id="donTel" name="donTel" placeholder="+228 ..." />
+          </div>
+          <div class="form__row">
+            <label class="form__consent">
+              <input type="checkbox" id="donAnon" />
+              <span>Je souhaite que mon don reste anonyme (mon nom ne sera pas affiché).</span>
+            </label>
+          </div>
+          <button type="submit" class="btn btn--primary">Faire mon don</button>
+          <div class="form__pay">
+            <span class="pay-chip">Mixx By Yas</span>
+            <span class="pay-chip">Flooz</span>
+            <span class="pay-chip">Visa / Mastercard</span>
+          </div>
+        </form>
       </div>
     </div>
   </section>
@@ -426,7 +578,7 @@
         </details>
         <details class="faq__item">
           <summary>Comment adhérer et combien ça coûte ?</summary>
-          <p>L'adhésion se fait en ligne en quelques minutes via le formulaire du site. Le paiement des frais d'adhésion et de la cotisation annuelle s'effectue par T-Money ou Moov Money. Le montant exact est fixé par le bureau et communiqué lors de l'inscription.</p>
+          <p>L'adhésion se fait en ligne en quelques minutes via le formulaire du site. Le paiement des frais d'adhésion et de la cotisation annuelle s'effectue par Mixx By Yas, Flooz ou carte bancaire, via la plateforme sécurisée CinetPay. Le montant exact est fixé par le bureau et communiqué lors de l'inscription.</p>
         </details>
         <details class="faq__item">
           <summary>Quels sont mes droits et avantages de membre ?</summary>
@@ -489,6 +641,7 @@
             <li><a href="#adhesion">Adhérer</a></li>
             <li><a href="galerie.html">Galerie</a></li>
             <li><a href="bibliotheque.html">Bibliothèque</a></li>
+            <li><a href="visio.html">Visio AG</a></li>
             <li><a href="#donateurs">Donateurs</a></li>
           </ul>
         </div>
@@ -516,6 +669,9 @@
   <!-- Supabase (backend adhésions) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase-config.js"></script>
+  <script src="js/paiement-config.js"></script>
   <script src="js/main.js"></script>
+  <!-- Paiements CinetPay (Mixx By Yas / Flooz / carte) -->
+  <script src="js/paiement.js"></script>
 </body>
 </html>
