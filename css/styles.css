@@ -434,3 +434,8 @@ body { background: #081826; color: #eaf2f9; }
 
 /* Footer */
 .footer { background: #06121f; }
+
+/* Anti-doublon « Adhérer » : le bouton du menu est masqué sur desktop
+   (le CTA dédié à droite suffit) et ne réapparaît que dans le menu mobile ouvert. */
+.nav .btn--primary { display: none; }
+.nav.open .btn--primary { display: inline-flex; }
