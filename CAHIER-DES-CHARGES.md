@@ -1,149 +1,139 @@
-# Cahier des charges technique — Plateforme STNT (Phase 2)
+# Cahier des charges définitif — Plateforme STNT
 
-> Spécifications de la plateforme de gestion syndicale complète, à destination d'un développeur ou d'une agence.
+> Syndicat des Travailleurs du Numérique du Togo (STNT).
+> Document de référence reflétant la plateforme **réellement livrée (V1)** et la **feuille de route (V2)**.
 > Webmaster / Lead Dev : Ing. BODJONA Bataka Pignanti.
+> Dernière mise à jour : 2026-06-25.
 
-## 1. Objectifs du système
+---
 
-- **Gestion des adhésions** : inscription en ligne, capture photo passeport, délivrance de cartes de membre numériques.
-- **Suivi financier** : centralisation des cotisations et dons avec traçabilité totale.
-- **Engagement** : visioconférence et newsletter intégrées.
+## 1. Objet
 
-## 2. Stack technique
+Plateforme web du STNT permettant : l'adhésion en ligne et le suivi des membres,
+l'encaissement des cotisations et dons, la tenue des assemblées générales à
+distance (visioconférence + vote en ligne des résolutions), la documentation
+réservée aux membres, et la communication institutionnelle. Conforme à la loi
+togolaise n° 2019-014 sur la protection des données personnelles.
 
-| Brique | Choix |
-|--------|-------|
-| Frontend | Next.js 14+ (App Router) + Tailwind CSS |
-| Backend / Auth / Storage | Supabase (PostgreSQL + PostGIS) |
-| Paiement (mobile money + carte) | CinetPay — Mixx By Yas, Flooz & cartes Visa/Mastercard (page hébergée) |
-| Paiement international | Carte bancaire via CinetPay (diaspora) ; dons récurrents en option |
-| Cartographie SIG | Leaflet.js + clustering, PostGIS |
-| Visioconférence | API Jitsi Meet |
-| Email / SMS | Brevo (email) + passerelle SMS togolaise (Semoa / SMSUp) |
-| Hébergement | Vercel ou VPS à Lomé, SSL Let's Encrypt |
-| Monitoring | Sentry (logs) |
+---
 
-## 3. Modules fonctionnels
+## 2. Architecture réelle (V1 en production)
 
-### 3.1 Adhésion « smart »
-- Capture photo : appareil mobile (caméra) ou glisser-déposer (desktop), recadrage auto format passeport.
-- Champs : nom, prénoms, date de naissance, secteur (Dev / Réseaux / Télécoms / IA...), téléphone (Mobile Money), ville/région, upload CV ou contrat (optionnel).
-- Case de consentement obligatoire (Loi 2019-014).
+| Brique | Choix retenu |
+|--------|--------------|
+| Frontend | Site statique **HTML / CSS / JS** (sans framework), thème sombre |
+| Hébergement | **GitHub Pages**, domaine **stnt-togo.org**, HTTPS forcé |
+| Backend / Base / Auth / Storage | **Supabase** (PostgreSQL + RLS) + **Edge Functions** (Deno/TypeScript) |
+| Authentification membres | **Supabase Auth** (email + mot de passe) |
+| Paiement (V1) | **PayGate Global** — page hébergée, Mixx By Yas & Flooz (mobile money) |
+| Visioconférence (V1) | **Zoom** (page de connexion intégrée au site) |
+| Cartographie | **Leaflet.js** (carte des régions, densité anonymisée) |
+| Bibliothèque | Bucket **privé** Supabase + Edge Function (code d'accès, liens signés) |
+| Galerie | Mode dépôt (médias dans `assets/`) |
+| Administration | Console **Swagger** (`/admin/`) pour piloter les Edge Functions |
+| Déploiement | `git push` → reconstruction GitHub Pages automatique |
 
-### 3.2 Paiements (double passerelle)
-- **Mobile money** : Mixx By Yas & Flooz via CinetPay, reçu PDF auto, relances automatiques email/SMS.
-- **Carte bancaire** : Visa / Mastercard via CinetPay (dons de la diaspora & legs), option dons récurrents.
-- Statut membre passe à « à jour » dès validation du paiement (débloque l'espace visio).
+> Choix d'ingénierie : un socle statique + Supabase plutôt qu'un framework lourd,
+> pour un coût d'hébergement quasi nul, une maintenance simple et une souveraineté
+> des données (RLS, secrets serveur).
 
-### 3.3 Espace membre
-- Authentification sécurisée (email + mot de passe ou OTP mobile).
-- Profil éditable, historique des paiements, statut (Actif / Inactif), carte de membre téléchargeable.
+---
 
-### 3.4 Cartographie (SIG)
-- Carte publique anonymisée par région (heatmap).
-- Carte admin : géolocalisation par ville, filtres (métier, région, à jour de cotisation), clic = fiche membre.
+## 3. Modules livrés (V1)
 
-### 3.5 Visioconférence
-- Jitsi Meet, réunions sans limite de temps, URL type `stnt-togo.org/reunion`.
+### 3.1 Adhésion et membres
+- **Nouvel adhérent** : formulaire en ligne, paiement des frais (PayGate), création du membre.
+- **Ancien membre** : mise à jour de ses informations **sans repayer** les frais (Edge Function `adhesion-ancien`).
+- **Validation par le Secrétaire Général** : toute inscription est `en_attente` jusqu'à validation (`statut_validation`).
+- Consentement RGPD obligatoire (loi 2019-014).
 
-### 3.6 Communication
-- Newsletter email/SMS avec segmentation (ex. uniquement les membres « à jour »).
-- Option bot WhatsApp Business API pour alertes temps réel.
+### 3.2 Paiements (PayGate Global)
+- Types : adhésion, cotisation, don (mutuelle et tontine prévus en base).
+- Flux : `paiement-init` (génère l'URL PayGate) → page de paiement → retour → `paiement-statut` qui **vérifie activement** l'état via `/api/v2/status` et applique les effets métier ; `paiement-notify` (callback, filet de sécurité).
+- Journal complet dans la table `paiements` (RLS verrouillée, accès via Edge Functions uniquement).
+- Tarifs : adhésion **2 000 FCFA**, cotisation **12 000 FCFA/an** (équiv. 1 000/mois), dons libres.
+- Le statut du membre passe à « à jour » dès confirmation du paiement.
 
-### 3.7 Espace donateurs & legs
-- Tableau d'honneur (individuels / entreprises), option anonymat.
-- Module de transparence d'utilisation des fonds.
-- Formulaire sécurisé pour les legs, contact service juridique.
+### 3.3 Espace membre et vote des AG
+- Compte **Supabase Auth** par membre (auto-inscription contrôlée : réservée aux emails déjà validés par le SG).
+- **Scrutins** : création/ouverture/clôture par le bureau (`vote-admin`, code bureau).
+- **Bulletin secret par défaut** : émargement (qui a voté) et bulletin (le choix) séparés, inaccessibles côté client. Nominatif possible.
+- **Une voix par membre**, **quorum** (% des inscrits) et **majorité** (simple / absolue / deux tiers) calculés au dépouillement.
+- Résultats publiés aux membres après clôture.
 
-## 4. Tableau de bord administrateur (SG = Super-Admin)
+### 3.4 Assemblée Générale en visioconférence
+- **Zoom** (V1) : page « AG en visio » avec lien de connexion, ID, code, date.
+- Le panel (bureau, intervenants) anime ; les membres suivent et votent en ligne.
 
-KPI (membres à jour / en retard, trésorerie temps réel ventilée Mobile Money vs carte, validations en attente), cartographie décisionnelle, validation biométrique en split-screen, génération/blocage de cartes, historique financier par membre, centre de communication, gestion donateurs.
+### 3.5 Bibliothèque documentaire sécurisée
+- Documents officiels (statuts, PV, modèles) dans un bucket **privé** Supabase.
+- Accès par **code confidentiel** (Edge Function `bibliotheque`), liens signés temporaires (1 h).
 
-### Matrice RBAC
+### 3.6 Galerie des activités
+- Photos et vidéos des activités du syndicat (mode dépôt, téléchargement).
 
-| Fonctionnalité | SG (Admin) | Trésorier | Secrétariat | Com |
-|---|---|---|---|---|
-| Dashboard global | Full | Finances | Stats membres | Communication |
-| Validation membres | ✅ | ❌ | ✅ | ❌ |
-| Validation paiements | ✅ | ✅ | ❌ | ❌ |
-| Export données | ✅ | ✅ (compta) | ✅ (listes) | ❌ |
-| Gestion carte SIG | ✅ | ❌ | ✅ | ✅ (vue) |
-| Newsletter / SMS | ✅ | ❌ | ❌ | ✅ |
-| Lancement visio | ✅ | ❌ | ✅ | ✅ |
-| Gestion des rôles | ✅ | ❌ | ❌ | ❌ |
+### 3.7 Cartographie (SIG)
+- Carte publique anonymisée des membres par région (Leaflet).
 
-> Le **Secrétaire Général (SG)** est le Super-Admin (clés de la maison). Chaque action sensible génère une trace d'audit non modifiable. 2FA exigée sur le back-office.
+### 3.8 Solidarité et donateurs
+- Espace donateurs & partenaires (tableau d'honneur, option anonymat, transparence des fonds).
+- Schéma en base pour tontine en ligne, mutuelle solidaire et caisse de solidarité.
 
-## 5. Schéma de base de données (simplifié)
+### 3.9 Console d'administration (Swagger)
+- Interface **`/admin/`** (Swagger UI) pour manipuler toutes les Edge Functions : votes, paiements, adhésion, bibliothèque. Authentification par clé et codes. Page non répertoriée.
 
-```sql
--- Membres
-CREATE TABLE membres (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  nom_complet TEXT NOT NULL,
-  email TEXT UNIQUE NOT NULL,
-  telephone TEXT,
-  ville TEXT,
-  metier TEXT,
-  photo_url TEXT,
-  statut_cotisation TEXT DEFAULT 'en_attente', -- 'a_jour' | 'expire'
-  date_adhesion TIMESTAMPTZ DEFAULT NOW()
-);
+---
 
--- Paiements
-CREATE TABLE paiements (
-  id_transaction TEXT PRIMARY KEY,
-  id_membre UUID REFERENCES membres(id),
-  montant NUMERIC,
-  type TEXT,        -- 'cotisation' | 'don'
-  methode TEXT,     -- 'tmoney' | 'moov' | 'carte'
-  date TIMESTAMPTZ DEFAULT NOW()
-);
+## 4. Sécurité et conformité
 
--- Donateurs
-CREATE TABLE donateurs (
-  id SERIAL PRIMARY KEY,
-  nom_entreprise TEXT,
-  logo_url TEXT,
-  montant_total NUMERIC,
-  visibilite TEXT DEFAULT 'public' -- 'public' | 'anonyme'
-);
+- **Row Level Security (RLS)** sur toutes les tables ; les données sensibles ne sont accessibles que via Edge Functions (clé service côté serveur).
+- **Secrets serveur uniquement** (jeton PayGate, codes d'accès) : jamais dans le site ni le dépôt.
+- **Secret du vote** garanti par la séparation émargement / bulletin.
+- **HTTPS** partout (Let's Encrypt via GitHub Pages).
+- **Loi 2019-014** : consentement explicite, cartographie anonymisée, validation humaine (SG) des inscriptions.
 
--- Bureau national
-CREATE TABLE bureau_national (
-  id SERIAL PRIMARY KEY,
-  nom TEXT NOT NULL,
-  poste TEXT NOT NULL,
-  ordre INTEGER,
-  photo_url TEXT
-);
+---
 
--- Journal d'audit
-CREATE TABLE audit_logs (
-  id BIGSERIAL PRIMARY KEY,
-  acteur TEXT, role TEXT, action TEXT,
-  cible TEXT, horodatage TIMESTAMPTZ DEFAULT NOW()
-);
-```
+## 5. Feuille de route (V2)
 
-## 6. Sécurité & conformité (Loi togolaise n° 2019-014)
+| Chantier | Description |
+|----------|-------------|
+| **Visio souveraine** | Jitsi auto-hébergé + diffusion HLS (panel + 500+ spectateurs) — voir `INFRA-VISIO-AG.md`. Remplace Zoom |
+| **Paiement par carte** | CinetPay pour les cartes Visa/Mastercard (diaspora), en complément du mobile money |
+| **Cotisation mensuelle** | Permettre de payer 1 000 FCFA/mois en plus de l'annuel dans le formulaire |
+| **Dashboard SG complet** | Tableau de bord avec RBAC (SG / Trésorier / Secrétariat / Com), validation, finances, exports, journal d'audit |
+| **Cartes de membre** | Génération de cartes de membre numériques (PDF) |
+| **Communication** | Newsletter email/SMS segmentée, alertes WhatsApp |
+| **Cotisations récurrentes** | Relances automatiques, reçus PDF |
 
-- Photos en bucket sécurisé (Supabase Storage / S3) avec URLs signées (admins uniquement).
-- Chiffrement en transit (HTTPS) et au repos (AES-256).
-- Consentement explicite, droit d'accès/rectification/opposition, cartographie anonymisée.
-- Conformité IPDCP (Instance de Protection des Données à Caractère Personnel).
+---
 
-## 7. Roadmap (estimation 8 semaines)
+## 6. Coûts
 
-1. **S1-2 — Fondations** : infra, domaine `stnt-togo.org`, schéma BDD, formulaire adhésion + photo, auth SG.
-2. **S3-4 — Flux financiers & SIG** : CinetPay (Mixx By Yas / Flooz / carte), carte interactive, cartes membres PDF.
-3. **S5-6 — Interactivité** : Jitsi, newsletter, dashboard SG + RBAC, espace donateurs.
-4. **S7-8 — Tests & lancement** : bêta paiement, audit sécurité, formation SG/Trésorier, ouverture publique.
+**Récurrents (V1) :**
+- Hébergement site : **GitHub Pages — gratuit**.
+- Domaine `stnt-togo.org` : déjà acquis (~quelques milliers de FCFA/an).
+- Supabase : **Free** (suffisant au démarrage) ou **Pro** (~25 $/mois) selon le volume.
+- PayGate : commission par transaction (pas d'abonnement).
+- Zoom (pour les AG) : licence 500 participants (~80-90 $/mois, à activer le mois de l'AG).
 
-## 8. Coûts indicatifs
+**Développement :** réalisé en interne par le webmaster. Tarif de référence validé : **50 000 FCFA/jour**.
 
-- **Récurrent** : domaine .tg ~30 000 FCFA/an, Supabase Pro ~150 000, SMS/newsletter ~100 000, Jitsi/SSL gratuits → **~280 000 FCFA/an**.
-- **Valeur marchande de la plateforme** (SIG + visio + paiements automatisés) : estimée **2,5 à 5 M FCFA** sur le marché togolais (optimisée ici car développement interne par le webmaster).
+**Valeur marchande** de l'ensemble (adhésions + paiements + vote + visio + SIG + admin) : estimée **2,5 à 5 M FCFA** sur le marché togolais.
+
+---
+
+## 7. État au 2026-06-25
+
+**En production :** site complet, adhésion + validation SG, **paiements PayGate actifs**,
+**vote des AG opérationnel** (backend déployé et testé), AG en visio (Zoom), bibliothèque,
+galerie, cartographie, console admin Swagger.
+
+**En attente (préparation de l'AG) :**
+- Import de la **liste électorale** (fichier des membres avec emails).
+- **Licence + lien Zoom** pour l'AG.
+- Configuration de l'**URL de notification** PayGate (filet de sécurité).
+- Optionnel : paiement de la **cotisation mensuelle** dans le formulaire.
 
 ---
 
