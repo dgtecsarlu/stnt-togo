@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AG en direct — STNT</title>
+  <meta name="description" content="Suivez l'assemblée générale du Syndicat des Travailleurs du Numérique du Togo en direct." />
+  <meta name="theme-color" content="#0B1E3F" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="header scrolled">
+    <div class="container header__inner">
+      <a href="index.html" class="brand"><img src="assets/logo-stnt.png" alt="STNT" class="brand__img" /></a>
+      <a href="index.html" class="btn btn--outline">← Retour au site</a>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="section__tag">Vie démocratique</span>
+      <h1>Assemblée Générale en direct</h1>
+      <p>Suivez l'AG du STNT en direct, où que vous soyez. Conçu pour accueillir l'ensemble des membres en simultané.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="visio-grid">
+        <div class="visio-main">
+          <div class="visio-frame">
+            <video id="liveVideo" class="live-video" controls playsinline></video>
+            <div id="liveOffline" class="visio-fallback">
+              <span class="live-dot"></span>
+              <p id="liveOfflineMsg">Le direct n'a pas encore commencé. Cette page se mettra à jour automatiquement dès l'ouverture de la séance.</p>
+              <button type="button" id="liveRetry" class="btn btn--outline btn--sm">Réessayer maintenant</button>
+            </div>
+          </div>
+        </div>
+        <aside class="visio-side">
+          <div class="card">
+            <h3>Participer</h3>
+            <p>Pendant la séance, votez les résolutions soumises par le bureau.</p>
+            <a class="btn btn--primary" href="vote.html">Aller au vote des AG →</a>
+          </div>
+          <div class="card">
+            <h3>Comment suivre</h3>
+            <ul class="join__list">
+              <li>Le direct démarre à l'ouverture de l'AG par le bureau</li>
+              <li>Montez le son et mettez en plein écran si besoin</li>
+              <li>En cas de coupure, cliquez sur « Réessayer »</li>
+              <li>Pour intervenir, suivez les consignes du bureau</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+      <p class="form__note" style="text-align:center;margin-top:18px;">Diffusion servie par le STNT. Le panel (bureau et intervenants) se tient sur la <a href="visio.html">salle de visioconférence</a>.</p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom">
+        <p>&copy; 2026 STNT — Syndicat des Travailleurs du Numérique du Togo.</p>
+        <p class="footer__sign">Webmaster : <strong>Ing. BODJONA Bataka Pignanti</strong> · webmaster@stnt-togo.org</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
+  <script src="js/diffusion-config.js"></script>
+  <script src="js/diffusion.js"></script>
+</body>
+</html>

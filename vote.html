@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vote des AG — STNT</title>
+  <meta name="description" content="Espace de vote réservé aux membres du Syndicat des Travailleurs du Numérique du Togo pour les assemblées générales." />
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#0B1E3F" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="header scrolled">
+    <div class="container header__inner">
+      <a href="index.html" class="brand"><img src="assets/logo-stnt.png" alt="STNT" class="brand__img" /></a>
+      <a href="index.html" class="btn btn--outline">← Retour au site</a>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="section__tag">Vie démocratique</span>
+      <h1>Vote des Assemblées Générales</h1>
+      <p>Votez sur les résolutions du STNT, où que vous soyez. Réservé aux membres validés. Vote à bulletin secret par défaut, une voix par membre.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+
+      <!-- Accès (non connecté) -->
+      <div id="voteAuth" class="vote-auth" hidden>
+        <div class="vote-tabs">
+          <button type="button" class="vote-tab is-active" data-tab="login">Se connecter</button>
+          <button type="button" class="vote-tab" data-tab="signup">Créer mon accès</button>
+        </div>
+
+        <form id="loginForm" class="form vote-pane" data-pane="login">
+          <div class="form__row">
+            <label for="loginEmail">Email</label>
+            <input type="email" id="loginEmail" autocomplete="email" required placeholder="votre email d'adhésion" />
+          </div>
+          <div class="form__row">
+            <label for="loginPass">Mot de passe</label>
+            <input type="password" id="loginPass" autocomplete="current-password" required />
+          </div>
+          <button type="submit" class="btn btn--cobalt">Se connecter</button>
+          <p id="loginMsg" class="form__note"></p>
+        </form>
+
+        <form id="signupForm" class="form vote-pane" data-pane="signup" hidden>
+          <p class="form__note">Utilise l'email avec lequel tu as adhéré. Ton adhésion doit être validée par le Secrétaire Général.</p>
+          <div class="form__row">
+            <label for="signEmail">Email d'adhésion</label>
+            <input type="email" id="signEmail" autocomplete="email" required placeholder="votre email d'adhésion" />
+          </div>
+          <div class="form__row">
+            <label for="signPass">Choisis un mot de passe (8 caractères min.)</label>
+            <input type="password" id="signPass" autocomplete="new-password" required minlength="8" />
+          </div>
+          <div class="form__row">
+            <label for="signPass2">Confirme le mot de passe</label>
+            <input type="password" id="signPass2" autocomplete="new-password" required minlength="8" />
+          </div>
+          <button type="submit" class="btn btn--cobalt">Créer mon accès</button>
+          <p id="signupMsg" class="form__note"></p>
+        </form>
+      </div>
+
+      <!-- Espace de vote (connecté) -->
+      <div id="voteSpace" hidden>
+        <div class="vote-bar card">
+          <span id="voteWho">Connecté</span>
+          <button type="button" id="logoutBtn" class="btn btn--outline btn--sm">Se déconnecter</button>
+        </div>
+
+        <h2 class="vote-h">Scrutins ouverts</h2>
+        <div id="voteOpen" class="vote-list"><p class="page-empty">Chargement…</p></div>
+
+        <h2 class="vote-h">Résultats publiés</h2>
+        <div id="voteClosed" class="vote-list"><p class="page-empty">Chargement…</p></div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom">
+        <p>&copy; 2026 STNT — Syndicat des Travailleurs du Numérique du Togo.</p>
+        <p class="footer__sign">Webmaster : <strong>Ing. BODJONA Bataka Pignanti</strong> · webmaster@stnt-togo.org</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/vote.js"></script>
+</body>
+</html>

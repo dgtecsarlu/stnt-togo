@@ -598,3 +598,87 @@ html { scrollbar-color: #20406a #081826; scrollbar-width: thin; }
   color: #fff; background: var(--cobalt); border-color: var(--cobalt);
   transform: translateY(-2px); box-shadow: 0 8px 18px rgba(37,99,235,0.35);
 }
+
+/* ============================================================
+   VOTE DES AG (espace membre + console bureau)
+   ============================================================ */
+.btn--sm { padding: 8px 14px; font-size: 0.88rem; }
+
+/* Onglets connexion / inscription (réutilise le langage des onglets adhésion) */
+.vote-auth { max-width: 480px; margin: 0 auto; }
+.vote-tabs {
+  display: flex; gap: 8px; margin: 0 auto 24px;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 12px; padding: 6px;
+}
+.vote-tab {
+  flex: 1; cursor: pointer; padding: 12px 14px; border: 0; border-radius: 8px;
+  font-weight: 700; font-size: 0.95rem; color: #9fb6cb; background: transparent;
+  transition: var(--transition);
+}
+.vote-tab:hover { color: #eaf2f9; }
+.vote-tab.is-active { background: var(--cobalt); color: #fff; box-shadow: 0 6px 16px rgba(37,99,235,0.35); }
+
+/* Barre d'état (connecté / corps électoral) */
+.vote-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 16px 20px; margin-bottom: 30px; flex-wrap: wrap;
+}
+.vote-bar span { color: #eaf2f9; font-weight: 600; }
+
+.vote-h { color: #eaf2f9; font-size: 1.35rem; margin: 34px 0 16px; }
+.vote-list { display: grid; gap: 18px; }
+
+/* Carte d'un scrutin */
+.vote-card { padding: 24px 26px; }
+.vote-card h3 { color: #eaf2f9; font-size: 1.15rem; margin-bottom: 8px; }
+.vote-desc { color: #b9cadd; margin-bottom: 12px; }
+.vote-meta { color: #8ba6bf; font-size: 0.88rem; margin-top: 10px; }
+
+.vote-opts { display: grid; gap: 10px; margin: 14px 0 18px; }
+.vote-opt {
+  display: flex; align-items: center; gap: 10px; cursor: pointer;
+  padding: 12px 14px; color: #d8e6f2; font-weight: 600;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px; transition: var(--transition);
+}
+.vote-opt:hover { border-color: var(--cobalt); }
+.vote-opt input { accent-color: var(--cobalt); width: 18px; height: 18px; }
+
+/* Résultats (barres) */
+.vote-ress { display: grid; gap: 10px; margin: 16px 0 6px; }
+.vote-res { display: grid; grid-template-columns: 120px 1fr 92px; align-items: center; gap: 12px; }
+.vote-res__l { color: #d8e6f2; font-weight: 600; font-size: 0.92rem; }
+.vote-res__bar { height: 12px; border-radius: 8px; background: rgba(255,255,255,0.08); overflow: hidden; }
+.vote-res__bar > span { display: block; height: 100%; background: linear-gradient(90deg, var(--cobalt-light), var(--emeraude-light)); }
+.vote-res__n { color: #8ba6bf; font-size: 0.86rem; text-align: right; }
+@media (max-width: 540px) { .vote-res { grid-template-columns: 90px 1fr 70px; } }
+
+/* Badges d'état / verdict */
+.vote-badge {
+  display: inline-block; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.02em;
+  padding: 3px 9px; border-radius: 999px; vertical-align: middle; text-transform: uppercase;
+}
+.vote-badge--ok { background: rgba(16,185,129,0.18); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.45); }
+.vote-badge--ko { background: rgba(239,68,68,0.16); color: #fca5a5; border: 1px solid rgba(239,68,68,0.45); }
+.vote-badge--neutre { background: rgba(255,255,255,0.08); color: #cfe0ee; border: 1px solid rgba(255,255,255,0.18); }
+
+.vote-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+.vote-card-msg { margin-top: 10px; }
+
+/* Grille de champs (console bureau) */
+.form__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media (max-width: 640px) { .form__grid { grid-template-columns: 1fr; } }
+
+/* ============================================================
+   DIFFUSION EN DIRECT (lecteur HLS, page AG en direct)
+   ============================================================ */
+.live-video { width: 100%; height: 100%; display: none; background: #06121f; object-fit: contain; }
+.live-dot {
+  width: 12px; height: 12px; border-radius: 50%; background: #f7941e;
+  box-shadow: 0 0 0 0 rgba(247, 148, 30, 0.55); animation: livedot 1.8s ease-out infinite;
+}
+@keyframes livedot {
+  0% { box-shadow: 0 0 0 0 rgba(247, 148, 30, 0.55); }
+  100% { box-shadow: 0 0 0 14px rgba(247, 148, 30, 0); }
+}

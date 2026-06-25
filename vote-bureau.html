@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Console des votes — Bureau STNT</title>
+  <meta name="description" content="Console réservée au bureau du STNT pour créer et dépouiller les scrutins des AG." />
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#0B1E3F" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="header scrolled">
+    <div class="container header__inner">
+      <a href="index.html" class="brand"><img src="assets/logo-stnt.png" alt="STNT" class="brand__img" /></a>
+      <a href="index.html" class="btn btn--outline">← Retour au site</a>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="section__tag">Bureau · accès réservé</span>
+      <h1>Console des votes</h1>
+      <p>Créez, ouvrez et dépouillez les scrutins des assemblées générales. Réservé au bureau du STNT.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+
+      <div id="bureauGate" class="biblio-gate">
+        <form id="bureauForm" class="form">
+          <div class="form__row">
+            <label for="adminCode">Code bureau</label>
+            <input type="password" id="adminCode" autocomplete="off" required placeholder="Code confidentiel du bureau" />
+          </div>
+          <button type="submit" class="btn btn--cobalt">Accéder à la console</button>
+          <p id="bureauMsg" class="form__note"></p>
+        </form>
+      </div>
+
+      <div id="bureauPanel" hidden>
+        <div class="vote-bar card">
+          <span id="corpsInfo">Corps électoral : —</span>
+          <button type="button" id="refreshBtn" class="btn btn--outline btn--sm">Rafraîchir</button>
+        </div>
+
+        <h2 class="vote-h">Nouveau scrutin</h2>
+        <form id="newVote" class="form card">
+          <div class="form__row">
+            <label for="vTitre">Titre de la résolution</label>
+            <input type="text" id="vTitre" required placeholder="Ex. Adoption du rapport moral 2025" />
+          </div>
+          <div class="form__row">
+            <label for="vDesc">Description (facultatif)</label>
+            <textarea id="vDesc" rows="2" placeholder="Précisions soumises au vote"></textarea>
+          </div>
+          <div class="form__row">
+            <label for="vOptions">Options (séparées par une virgule)</label>
+            <input type="text" id="vOptions" value="Pour, Contre, Abstention" />
+          </div>
+          <div class="form__grid">
+            <div class="form__row">
+              <label for="vMaj">Majorité</label>
+              <select id="vMaj">
+                <option value="simple">Simple</option>
+                <option value="absolue">Absolue (&gt; 50%)</option>
+                <option value="deux_tiers">Deux tiers</option>
+              </select>
+            </div>
+            <div class="form__row">
+              <label for="vQuorum">Quorum (% des inscrits)</label>
+              <input type="number" id="vQuorum" value="50" min="0" max="100" />
+            </div>
+            <div class="form__row">
+              <label for="vSecret">Type</label>
+              <select id="vSecret">
+                <option value="true">Bulletin secret</option>
+                <option value="false">Nominatif</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn btn--cobalt">Créer le scrutin (brouillon)</button>
+          <p id="newVoteMsg" class="form__note"></p>
+        </form>
+
+        <h2 class="vote-h">Scrutins</h2>
+        <div id="bureauList" class="vote-list"><p class="page-empty">Chargement…</p></div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom">
+        <p>&copy; 2026 STNT — Syndicat des Travailleurs du Numérique du Togo.</p>
+        <p class="footer__sign">Webmaster : <strong>Ing. BODJONA Bataka Pignanti</strong> · webmaster@stnt-togo.org</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/supabase-config.js"></script>
+  <script src="js/vote-bureau.js"></script>
+</body>
+</html>
