@@ -67,19 +67,21 @@
   }
 
   /* ---------- Reveal au scroll + déclenche compteurs ---------- */
+  function fireCounters(el) {
+    el.querySelectorAll('[data-count]').forEach(function (c) {
+      if (!c.dataset.done) { c.dataset.done = '1'; animateCount(c); }
+    });
+  }
+  function show(el) { el.classList.add('visible'); fireCounters(el); }
+
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        var counters = entry.target.querySelectorAll('[data-count]');
-        counters.forEach(function (c) {
-          if (!c.dataset.done) { c.dataset.done = '1'; animateCount(c); }
-        });
-        io.unobserve(entry.target);
-      }
+      if (entry.isIntersecting) { show(entry.target); io.unobserve(entry.target); }
     });
   }, { threshold: 0.15 });
-  document.querySelectorAll('.reveal').forEach(function (el) {
+
+  var revealEls = [].slice.call(document.querySelectorAll('.reveal'));
+  revealEls.forEach(function (el) {
     var parent = el.parentElement;
     if (parent) {
       var sibs = [].slice.call(parent.children).filter(function (c) { return c.classList.contains('reveal'); });
@@ -88,6 +90,20 @@
     }
     io.observe(el);
   });
+
+  // Révèle immédiatement tout .reveal déjà dans l'écran OU au-dessus
+  // (cas : arrivée directe sur une ancre #section, ou rechargement en cours de page).
+  // Sans ça, les sections au-dessus du point d'ancrage restent invisibles.
+  function revealInView() {
+    var h = window.innerHeight || document.documentElement.clientHeight;
+    revealEls.forEach(function (el) {
+      if (el.classList.contains('visible')) return;
+      if (el.getBoundingClientRect().top < h) { show(el); io.unobserve(el); }
+    });
+  }
+  requestAnimationFrame(revealInView);
+  window.addEventListener('load', revealInView);
+  window.addEventListener('hashchange', function () { setTimeout(revealInView, 60); });
 
   /* ---------- Header au défilement + lien de navigation actif ---------- */
   var header = document.querySelector('.header');
