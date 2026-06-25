@@ -1,7 +1,6 @@
 // ============================================================
 // STNT — Tarifs des paiements (montants publics, en FCFA / XOF)
-// Montants officiels du bureau. Les montants sont arrondis au
-// multiple de 5 le plus proche par le serveur (exigence CinetPay).
+// Montants officiels du bureau, en FCFA entiers.
 // ============================================================
 window.STNT_TARIFS = {
   adhesion: 2000,            // frais d'adhésion

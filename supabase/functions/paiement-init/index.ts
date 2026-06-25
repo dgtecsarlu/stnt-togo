@@ -1,16 +1,19 @@
 // ============================================================
-// STNT — Edge Function "paiement-init"
-// Initie un paiement CinetPay (Mixx By Yas / Flooz / carte bancaire)
-// pour : adhésion, cotisation, mutuelle, tontine ou don.
+// STNT — Edge Function "paiement-init" (PayGate Global)
+// Initie un paiement PayGate (Mixx By Yas / Flooz) pour :
+// adhésion, cotisation, mutuelle, tontine ou don.
 //
 // 1. Valide la demande
 // 2. (adhésion) crée le membre en statut "en_attente"
 // 3. Enregistre la transaction dans public.paiements
-// 4. Appelle l'API CinetPay et renvoie l'URL de paiement
+// 4. Construit l'URL de la page de paiement PayGate et la renvoie
+//
+// V1 : PayGate gère le mobile money togolais uniquement (Flooz, T-Money).
+// Les cartes bancaires reviendront en V2 (CinetPay).
 //
 // Déploiement :
-//   supabase functions deploy paiement-init
-//   supabase secrets set CINETPAY_API_KEY=xxxx CINETPAY_SITE_ID=xxxx
+//   supabase functions deploy paiement-init --use-api
+//   supabase secrets set PAYGATE_AUTH_TOKEN=xxxx
 // ============================================================
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
@@ -20,30 +23,28 @@ const cors = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
-const CINETPAY_URL = "https://api-checkout.cinetpay.com/v2/payment";
+const PAYGATE_PAGE = "https://paygateglobal.com/v1/page";
 const TYPES = ["adhesion", "cotisation", "mutuelle", "tontine", "don"];
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
 
   try {
-    const API_KEY = Deno.env.get("CINETPAY_API_KEY");
-    const SITE_ID = Deno.env.get("CINETPAY_SITE_ID");
+    const TOKEN = Deno.env.get("PAYGATE_AUTH_TOKEN");
     const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
-    if (!API_KEY || !SITE_ID) {
-      return json({ error: "Paiement non configuré (clés CinetPay manquantes)." }, 503);
+    if (!TOKEN) {
+      return json({ error: "Paiement non configuré (jeton PayGate manquant)." }, 503);
     }
 
     const body = await req.json().catch(() => ({}));
     const type = String(body.type || "").toLowerCase();
     if (!TYPES.includes(type)) return json({ error: "Type de paiement invalide." }, 400);
 
-    // Montant : entier multiple de 5 (exigence XOF chez CinetPay), min 100 FCFA
+    // Montant : entier en FCFA, minimum 100
     let montant = Math.round(Number(body.montant));
     if (!Number.isFinite(montant) || montant < 100) {
       return json({ error: "Montant invalide (minimum 100 FCFA)." }, 400);
     }
-    montant = Math.round(montant / 5) * 5;
 
     const nom = String(body.nom || "").trim();
     const email = String(body.email || "").trim().toLowerCase();
@@ -79,8 +80,6 @@ Deno.serve(async (req) => {
         .single();
       if (mErr) {
         if (mErr.code === "23505") {
-          // Email déjà présent : reprendre une adhésion non finalisée,
-          // ou refuser si le membre est déjà à jour.
           const { data: existing } = await supabase
             .from("membres")
             .select("id, statut_cotisation")
@@ -102,7 +101,7 @@ Deno.serve(async (req) => {
       }
     }
 
-    // --- Référence de transaction (unique) ---
+    // --- Référence de transaction (identifier unique côté STNT) ---
     const transactionId =
       "STNT-" + type.toUpperCase() + "-" + Date.now() + "-" +
       crypto.randomUUID().slice(0, 8);
@@ -133,47 +132,25 @@ Deno.serve(async (req) => {
     }]);
     if (pErr) return json({ error: "Erreur d'enregistrement du paiement." }, 500);
 
-    // --- Page de retour (front) et URL de notification (serveur) ---
+    // --- Page de retour (front) : le client y revient après paiement ---
     let retourBase = String(body.retour_url || "https://stnt-togo.org/paiement-retour.html");
-    // sécurité : on n'accepte qu'une URL http(s)
     if (!/^https?:\/\//.test(retourBase)) retourBase = "https://stnt-togo.org/paiement-retour.html";
     const returnUrl = retourBase + (retourBase.includes("?") ? "&" : "?") + "ref=" + transactionId;
-    const notifyUrl = SUPABASE_URL + "/functions/v1/paiement-notify";
 
-    // --- Appel CinetPay ---
-    const parts = nom.split(/\s+/);
-    const prenom = parts.length > 1 ? parts.slice(1).join(" ") : nom;
-    const surname = parts.length > 1 ? parts[0] : "STNT";
-
-    const cpRes = await fetch(CINETPAY_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        apikey: API_KEY,
-        site_id: SITE_ID,
-        transaction_id: transactionId,
-        amount: montant,
-        currency: "XOF",
-        description,
-        customer_name: prenom || "Membre",
-        customer_surname: surname,
-        customer_email: email || "contact@stnt-togo.org",
-        customer_phone_number: telephone || "",
-        notify_url: notifyUrl,
-        return_url: returnUrl,
-        channels: "ALL", // Mixx By Yas, Flooz ET cartes bancaires
-        lang: "fr",
-        metadata: type,
-      }),
+    // --- Construire l'URL de la page de paiement PayGate (GET) ---
+    const params = new URLSearchParams({
+      token: TOKEN,
+      amount: String(montant),
+      identifier: transactionId,
+      description,
+      url: returnUrl,
     });
+    // network laissé libre : le client choisit Mixx By Yas ou Flooz sur la page
+    if (telephone) params.set("phone", telephone);
 
-    const cp = await cpRes.json().catch(() => ({}));
-    const url = cp?.data?.payment_url;
-    if (!url) {
-      return json({ error: "CinetPay : " + (cp?.description || cp?.message || "réponse inattendue") }, 502);
-    }
+    const paymentUrl = PAYGATE_PAGE + "?" + params.toString();
 
-    return json({ payment_url: url, transaction_id: transactionId }, 200);
+    return json({ payment_url: paymentUrl, transaction_id: transactionId }, 200);
   } catch (e) {
     return json({ error: String(e) }, 500);
   }

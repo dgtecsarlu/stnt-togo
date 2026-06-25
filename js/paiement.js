@@ -1,8 +1,8 @@
 /* ============================================================
-   STNT — Paiements en ligne (CinetPay)
-   Mixx By Yas · Flooz · Cartes bancaires
+   STNT — Paiements en ligne (PayGate Global)
+   Mixx By Yas · Flooz (mobile money togolais)
    Branche les formulaires Adhésion / Cotisation / Don sur
-   l'Edge Function "paiement-init" puis redirige vers CinetPay.
+   l'Edge Function "paiement-init" puis redirige vers PayGate.
    Webmaster : Ing. BODJONA Bataka Pignanti
    ============================================================ */
 (function () {
@@ -54,7 +54,7 @@
           showToast((res.d && res.d.error) ? res.d.error : 'Impossible d\'initier le paiement. Réessaie.');
           return;
         }
-        // Redirection vers la page de paiement CinetPay
+        // Redirection vers la page de paiement PayGate
         window.location.href = res.d.payment_url;
       })
       .catch(function () {

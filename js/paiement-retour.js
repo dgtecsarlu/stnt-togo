@@ -40,7 +40,7 @@
   }
 
   var tries = 0;
-  var MAX = 12; // ~36 s (le webhook CinetPay arrive en quelques secondes)
+  var MAX = 12; // ~36 s (vérification du statut auprès de PayGate)
 
   function poll() {
     tries++;

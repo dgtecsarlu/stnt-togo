@@ -129,8 +129,8 @@
   }
 
   /* ---------- Soumission du formulaire de contact (maquette) ----------
-     NB : l'adhésion et les paiements (Mixx By Yas / Flooz / carte) sont
-     gérés par js/paiement.js via l'Edge Function CinetPay. */
+     NB : l'adhésion et les paiements (Mixx By Yas / Flooz) sont
+     gérés par js/paiement.js via l'Edge Function PayGate. */
   var contactForm = document.getElementById('contactForm');
   if (contactForm) {
     contactForm.addEventListener('submit', function (e) {

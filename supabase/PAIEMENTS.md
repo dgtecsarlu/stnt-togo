@@ -4,6 +4,39 @@ Ce module encaisse les **frais d'adhésion**, les **cotisations** et les **dons*
 par **Mixx By Yas** (Togocom), **Flooz** (Moov Africa) et **carte bancaire** (Visa / Mastercard),
 via l'agrégateur **CinetPay** et une page de paiement hébergée (aucune donnée carte ne transite par le site).
 
+---
+
+> ## ⚠️ STATUT (2026-06-25) : la V1 tourne sous **PayGate Global**, pas CinetPay
+>
+> Décision du bureau : pour la **V1**, on encaisse via **PayGate Global** (le compte
+> CinetPay demandait des vérifications trop longues pour l'AG imminente). **CinetPay
+> reviendra en V2** (la doc ci-dessous reste valable pour ce moment-là).
+>
+> **Conséquence importante : PayGate ne gère QUE le mobile money togolais** (Mixx By
+> Yas / Flooz). **Pas de carte bancaire** en V1. Les cartes (diaspora) reviendront en
+> V2 avec CinetPay. Les mentions « carte » ont été retirées du site.
+>
+> **Ce qui est déjà fait :** les 3 fonctions (`paiement-init`, `paiement-notify`,
+> `paiement-statut`) ont été **réécrites pour PayGate et déployées**. `paiement-init`
+> construit l'URL de la page PayGate (`https://paygateglobal.com/v1/page`) ;
+> `paiement-statut` (appelé au retour du client) **vérifie activement** l'état réel via
+> `https://paygateglobal.com/api/v2/status` (source de vérité) et confirme le paiement ;
+> `paiement-notify` est le **filet de sécurité** (callback PayGate, à déployer sans JWT).
+>
+> **Ce qu'il reste à faire par le bureau pour activer :**
+> 1. Créer le compte marchand sur **https://paygateglobal.com** (mêmes pièces KYC que
+>    CinetPay ci-dessous : récépissé, statuts, pièce du SG, compte de reversement STNT).
+> 2. Récupérer le **`auth_token`** (clé API) dans le tableau de bord.
+> 3. Poser le secret : `supabase secrets set PAYGATE_AUTH_TOKEN=xxxx`
+> 4. Dans le tableau de bord PayGate, renseigner l'**URL de notification** =
+>    `https://puiamiqbomunmfzlqcro.supabase.co/functions/v1/paiement-notify`
+>    (filet de sécurité ; la confirmation principale se fait déjà au retour du client).
+> 5. Rien à redéployer ensuite : les paiements passent de « non configuré » à actifs.
+>
+> Codes de statut PayGate : **0 = payé**, 2 = en cours, 4 = expiré, 6 = annulé.
+
+---
+
 ## Architecture
 
 ```
