@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Console d'administration — STNT</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css" />
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: #f4f6f9; }
+    .admin-top { background: #0B1E3F; color: #eaf2f9; padding: 18px 24px; }
+    .admin-top h1 { margin: 0 0 6px; font-size: 1.2rem; }
+    .admin-top p { margin: 0; font-size: 0.9rem; color: #b9cadd; }
+    .admin-note {
+      max-width: 1200px; margin: 16px auto 0; padding: 14px 18px;
+      background: #fff8e6; border: 1px solid #f0d98a; border-radius: 8px;
+      font-size: 0.88rem; color: #5b4a16; line-height: 1.5;
+    }
+    .admin-note code { background: #eef1f5; padding: 1px 6px; border-radius: 4px; }
+    #swagger { max-width: 1200px; margin: 0 auto; }
+  </style>
+</head>
+<body>
+  <div class="admin-top">
+    <h1>Console d'administration — STNT</h1>
+    <p>Manipulation des services backend (votes, paiements, adhésion, bibliothèque). Réservé à l'administrateur.</p>
+  </div>
+
+  <div class="admin-note">
+    <strong>Avant de tester :</strong> cliquez sur le bouton <strong>Authorize</strong> 🔓 et renseignez&nbsp;:
+    <ul style="margin:8px 0 0;padding-left:20px;">
+      <li><strong>ApiKey</strong> et <strong>Bearer</strong> : la clé publique Supabase <code>sb_publishable_lfeasYW3si1B9lgiOZxL1Q_8nSYh4kt</code></li>
+      <li><strong>AdminCode</strong> : le code bureau (uniquement pour la console des votes <code>/vote-admin</code>)</li>
+      <li>Pour <code>/vote-voter</code>, le <strong>Bearer</strong> doit être le jeton de session d'un membre connecté.</li>
+    </ul>
+    Page non répertoriée : ne diffusez pas cette URL publiquement.
+  </div>
+
+  <div id="swagger"></div>
+
+  <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js"></script>
+  <script>
+    window.onload = function () {
+      window.ui = SwaggerUIBundle({
+        url: 'openapi.json',
+        dom_id: '#swagger',
+        presets: [SwaggerUIBundle.presets.apis],
+        layout: 'BaseLayout',
+        persistAuthorization: true,
+        tryItOutEnabled: true,
+        defaultModelsExpandDepth: -1
+      });
+    };
+  </script>
+</body>
+</html>

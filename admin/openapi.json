@@ -1,0 +1,205 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "STNT — API d'administration",
+    "version": "1.0.0",
+    "description": "Console des Edge Functions du STNT (vote, paiements, adhésion, bibliothèque).\n\n**Authentification :** cliquez sur « Authorize » et renseignez :\n- **ApiKey** et **Bearer** = la clé publique (anon) Supabase du STNT : `sb_publishable_lfeasYW3si1B9lgiOZxL1Q_8nSYh4kt`\n- **AdminCode** = le code bureau (uniquement pour `/vote-admin`)\n- Pour `/vote-voter`, le **Bearer** doit être le jeton de session d'un membre connecté (pas la clé anon).\n\nRéservé à l'administrateur du STNT."
+  },
+  "servers": [
+    { "url": "https://puiamiqbomunmfzlqcro.supabase.co/functions/v1", "description": "Production STNT" }
+  ],
+  "components": {
+    "securitySchemes": {
+      "ApiKey": { "type": "apiKey", "in": "header", "name": "apikey" },
+      "Bearer": { "type": "http", "scheme": "bearer" },
+      "AdminCode": { "type": "apiKey", "in": "header", "name": "x-admin-code" }
+    }
+  },
+  "security": [ { "ApiKey": [], "Bearer": [] } ],
+  "tags": [
+    { "name": "Votes", "description": "Scrutins des assemblées générales" },
+    { "name": "Adhésion", "description": "Membres et anciens adhérents" },
+    { "name": "Paiements", "description": "PayGate (Mixx By Yas / Flooz)" },
+    { "name": "Bibliothèque", "description": "Accès documentaire réservé" }
+  ],
+  "paths": {
+    "/vote-admin": {
+      "post": {
+        "tags": ["Votes"],
+        "summary": "Console bureau : créer / ouvrir / clore / lister les scrutins",
+        "description": "Protégé par le code bureau (en-tête x-admin-code).",
+        "security": [ { "ApiKey": [], "Bearer": [], "AdminCode": [] } ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["action"],
+                "properties": {
+                  "action": { "type": "string", "enum": ["lister", "creer", "ouvrir", "clore"], "description": "Action à exécuter" },
+                  "id": { "type": "string", "description": "Identifiant du scrutin (ouvrir / clore)" },
+                  "titre": { "type": "string", "description": "Titre (creer)" },
+                  "description": { "type": "string" },
+                  "options": { "type": "array", "items": { "type": "string" }, "example": ["Pour", "Contre", "Abstention"] },
+                  "majorite": { "type": "string", "enum": ["simple", "absolue", "deux_tiers"], "default": "simple" },
+                  "quorum_pct": { "type": "number", "default": 50 },
+                  "secret": { "type": "boolean", "default": true }
+                }
+              },
+              "examples": {
+                "lister": { "value": { "action": "lister" } },
+                "creer": { "value": { "action": "creer", "titre": "Adoption du rapport moral 2025", "options": ["Pour", "Contre", "Abstention"], "majorite": "simple", "quorum_pct": 50, "secret": true } },
+                "ouvrir": { "value": { "action": "ouvrir", "id": "UUID-DU-SCRUTIN" } },
+                "clore": { "value": { "action": "clore", "id": "UUID-DU-SCRUTIN" } }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" }, "401": { "description": "Code bureau invalide" } }
+      }
+    },
+    "/vote-inscription": {
+      "post": {
+        "tags": ["Votes"],
+        "summary": "Créer l'accès d'un électeur (auto-inscription contrôlée)",
+        "description": "Crée le compte d'un membre dont l'email est déjà validé par le SG.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password"],
+                "properties": {
+                  "email": { "type": "string", "format": "email" },
+                  "password": { "type": "string", "minLength": 8 }
+                }
+              },
+              "example": { "email": "membre@example.com", "password": "motdepasse123" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Compte créé" }, "403": { "description": "Email non validé / absent" }, "409": { "description": "Compte déjà existant" } }
+      }
+    },
+    "/vote-voter": {
+      "post": {
+        "tags": ["Votes"],
+        "summary": "Voter sur un scrutin ouvert",
+        "description": "Le Bearer doit être le jeton de session d'un membre connecté (pas la clé anon).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["vote_id", "choix"],
+                "properties": {
+                  "vote_id": { "type": "string" },
+                  "choix": { "type": "string", "example": "Pour" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Vote enregistré" }, "401": { "description": "Connexion requise" }, "409": { "description": "Déjà voté / scrutin fermé" } }
+      }
+    },
+    "/adhesion-ancien": {
+      "post": {
+        "tags": ["Adhésion"],
+        "summary": "Inscrire / mettre à jour un ancien membre (sans paiement)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["nom", "email", "consentement_rgpd"],
+                "properties": {
+                  "nom": { "type": "string" },
+                  "email": { "type": "string", "format": "email" },
+                  "telephone": { "type": "string" },
+                  "region": { "type": "string", "enum": ["Maritime", "Plateaux", "Centrale", "Kara", "Savanes"] },
+                  "metier": { "type": "string" },
+                  "consentement_rgpd": { "type": "boolean", "example": true }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK (création ou mise à jour)" }, "400": { "description": "Données invalides" } }
+      }
+    },
+    "/paiement-init": {
+      "post": {
+        "tags": ["Paiements"],
+        "summary": "Initier un paiement PayGate (renvoie l'URL de paiement)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["type", "montant"],
+                "properties": {
+                  "type": { "type": "string", "enum": ["adhesion", "cotisation", "mutuelle", "tontine", "don"] },
+                  "montant": { "type": "integer", "minimum": 100, "example": 2000 },
+                  "nom": { "type": "string" },
+                  "email": { "type": "string", "format": "email" },
+                  "telephone": { "type": "string" },
+                  "anonyme": { "type": "boolean" },
+                  "campagne_id": { "type": "string" }
+                }
+              },
+              "examples": {
+                "adhesion": { "value": { "type": "adhesion", "montant": 2000, "nom": "Test Membre", "email": "test@example.com", "telephone": "+22890000000", "consentement_rgpd": true } },
+                "don": { "value": { "type": "don", "montant": 1000, "nom": "Donateur", "email": "don@example.com" } }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "payment_url + transaction_id" }, "503": { "description": "Paiement non configuré (jeton PayGate manquant)" } }
+      }
+    },
+    "/paiement-statut": {
+      "post": {
+        "tags": ["Paiements"],
+        "summary": "Vérifier l'état d'un paiement (vérification active PayGate)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["transaction_id"],
+                "properties": { "transaction_id": { "type": "string", "example": "STNT-ADHESION-..." } }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "statut : en_attente | paye | echoue | inconnu" } }
+      }
+    },
+    "/bibliotheque": {
+      "post": {
+        "tags": ["Bibliothèque"],
+        "summary": "Accéder aux documents réservés (par code d'accès)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["code"],
+                "properties": { "code": { "type": "string", "description": "Code d'accès confidentiel" } }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Liste des documents (liens signés)" }, "401": { "description": "Code invalide" } }
+      }
+    }
+  }
+}
