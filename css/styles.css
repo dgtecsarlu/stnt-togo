@@ -693,3 +693,7 @@ html { scrollbar-color: #20406a #081826; scrollbar-width: thin; }
 .zoom-join h2 { color: #eaf2f9; font-size: 1.4rem; margin-bottom: 24px; }
 .zoom-btn { font-size: 1.05rem; padding: 16px 30px; }
 .zoom-details { color: #b9cadd; margin-top: 18px; font-size: 0.95rem; }
+
+/* Carte donateur cliquable (ex. GTEC SARLU -> son site) */
+.donor--link { text-decoration: none; color: inherit; cursor: pointer; transition: var(--transition); }
+.donor--link:hover { transform: translateY(-3px); border-color: rgba(37, 99, 235, 0.45); box-shadow: 0 14px 36px rgba(0, 0, 0, 0.32); }
