@@ -4,6 +4,14 @@ Vote en ligne des résolutions d'AG, réservé aux membres validés, avec
 **bulletin secret par défaut**, **une voix par membre**, **quorum** et
 **dépouillement** automatiques.
 
+> **STATUT (2026-06-25) : backend DÉPLOYÉ en production.** `votes.sql` exécuté,
+> provider Email actif, 3 Edge Functions déployées, secret `VOTE_ADMIN_CODE`
+> posé, console bureau testée. Les étapes de déploiement (section 3) sont donc
+> déjà faites ; elles restent documentées pour référence et redéploiement.
+> Reste avant l'AG : importer la liste électorale (membres + emails, en
+> `statut_validation='validee'`). La visio de l'AG passe par **Zoom (V1)** ;
+> l'infra Jitsi auto-hébergée (`INFRA-VISIO-AG.md`) est reportée en V2.
+
 ---
 
 ## 1. Ce que ça fait
