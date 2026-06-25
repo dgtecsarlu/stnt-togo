@@ -682,3 +682,14 @@ html { scrollbar-color: #20406a #081826; scrollbar-width: thin; }
   0% { box-shadow: 0 0 0 0 rgba(247, 148, 30, 0.55); }
   100% { box-shadow: 0 0 0 14px rgba(247, 148, 30, 0); }
 }
+
+/* Carte de connexion Zoom (AG en visio) */
+.zoom-join { text-align: center; padding: 48px 30px; }
+.zoom-badge {
+  display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px;
+  padding: 6px 14px; border-radius: 999px; font-weight: 700; font-size: 0.82rem;
+  color: #cfe0ee; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14);
+}
+.zoom-join h2 { color: #eaf2f9; font-size: 1.4rem; margin-bottom: 24px; }
+.zoom-btn { font-size: 1.05rem; padding: 16px 30px; }
+.zoom-details { color: #b9cadd; margin-top: 18px; font-size: 0.95rem; }
