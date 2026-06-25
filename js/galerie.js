@@ -11,7 +11,8 @@
 
   var MEDIAS = [
     { type: 'photo', src: 'assets/Date_AG_2020.PNG', titre: 'Assemblée Générale constitutive', date: '18 juillet 2020 · Bourse du Travail CNTT, Lomé' },
-    { type: 'photo', src: 'assets/Photo_SG_Mandat_2020_2024.jpeg', titre: 'Le Secrétaire Général — mandat 2020-2024', date: '' }
+    { type: 'photo', src: 'assets/Photo_SG_Mandat_2020_2024.jpeg', titre: 'Le Secrétaire Général — mandat 2020-2024', date: '' },
+    { type: 'photo', src: 'assets/Photo_Mme_Administrative_Yas.jpeg', titre: 'L\'administration du STNT', date: '' }
   ];
 
   if (!MEDIAS.length) {
