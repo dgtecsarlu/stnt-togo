@@ -697,3 +697,24 @@ html { scrollbar-color: #20406a #081826; scrollbar-width: thin; }
 /* Carte donateur cliquable (ex. GTEC SARLU -> son site) */
 .donor--link { text-decoration: none; color: inherit; cursor: pointer; transition: var(--transition); }
 .donor--link:hover { transform: translateY(-3px); border-color: rgba(37, 99, 235, 0.45); box-shadow: 0 14px 36px rgba(0, 0, 0, 0.32); }
+
+/* ============================================================
+   FORMATIONS (Académie syndicale du numérique)
+   ============================================================ */
+.formations-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-bottom: 28px; }
+@media (max-width: 900px) { .formations-grid { grid-template-columns: 1fr; } }
+.parcours { padding: 26px; display: flex; flex-direction: column; }
+.parcours__num {
+  display: inline-block; align-self: flex-start; margin-bottom: 14px;
+  font-size: 0.72rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase;
+  color: #cfe0ee; background: rgba(37, 99, 235, 0.18);
+  border: 1px solid rgba(37, 99, 235, 0.40); padding: 4px 11px; border-radius: 999px;
+}
+.parcours h2 { color: #eaf2f9; font-size: 1.18rem; margin-bottom: 10px; }
+.parcours__intro { color: #b9cadd; margin-bottom: 14px; }
+.parcours__mods { list-style: none; padding: 0; margin: 0 0 16px; display: grid; gap: 8px; }
+.parcours__mods li { color: #d8e6f2; padding-left: 20px; position: relative; font-size: 0.94rem; }
+.parcours__mods li::before { content: '▸'; position: absolute; left: 0; color: var(--cobalt-light); }
+.parcours__meta { margin-top: auto; color: #8ba6bf; font-size: 0.85rem; }
+.formations-info { padding: 26px; }
+.formations-info h3 { color: #eaf2f9; font-size: 1.2rem; margin-bottom: 14px; }
