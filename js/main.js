@@ -102,8 +102,17 @@
     });
   }
   requestAnimationFrame(revealInView);
-  window.addEventListener('load', revealInView);
+  document.addEventListener('DOMContentLoaded', revealInView);
+  window.addEventListener('load', function () {
+    revealInView();
+    // Filets de sécurité : selon le navigateur, le positionnement sur
+    // l'ancre (#section) et la mise en page finale arrivent un peu après
+    // l'événement load. On re-vérifie pour ne laisser aucune section vide.
+    setTimeout(revealInView, 200);
+    setTimeout(revealInView, 600);
+  });
   window.addEventListener('hashchange', function () { setTimeout(revealInView, 60); });
+  window.addEventListener('scroll', revealInView, { passive: true });
 
   /* ---------- Header au défilement + lien de navigation actif ---------- */
   var header = document.querySelector('.header');
