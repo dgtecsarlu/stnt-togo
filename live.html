@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AG en direct (interactif) — STNT</title>
+  <meta name="description" content="Suivez l'assemblée générale du STNT en direct, en audio et vidéo interactifs, directement sur le site." />
+  <meta name="theme-color" content="#0B1E3F" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css?v=20260626" />
+  <style>
+    .live-embed { width: 100%; height: 72vh; min-height: 460px; border-radius: 14px;
+      overflow: hidden; background: #06121f; border: 1px solid rgba(255,255,255,.08); }
+    .live-embed iframe { width: 100%; height: 100%; border: 0; }
+    .live-gate { max-width: 460px; margin: 0 auto; text-align: center; }
+    .live-gate .form__row { text-align: left; }
+    .live-badge { display: inline-flex; align-items: center; gap: 8px; font-weight: 600;
+      color: var(--emeraude, #10B981); margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+  <header class="header scrolled">
+    <div class="container header__inner">
+      <a href="index.html" class="brand"><img src="assets/logo-stnt.png" alt="STNT" class="brand__img" /></a>
+      <a href="index.html" class="btn btn--outline">← Retour au site</a>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="section__tag">Vie démocratique</span>
+      <h1>AG en direct — interactif</h1>
+      <p>Suivez l'assemblée générale en audio et vidéo, sans quitter le site. Réservé aux membres.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="visio-grid">
+        <div class="visio-main">
+
+          <!-- Entrée (saisie du nom avant de rejoindre) -->
+          <div id="liveGate" class="card live-gate">
+            <div class="live-badge"><span class="live-dot"></span> Direct interactif</div>
+            <h2 id="liveDate">Le direct s'ouvrira ici le jour de l'AG</h2>
+            <form id="liveForm" class="form">
+              <div class="form__row">
+                <label for="liveName">Vos nom et prénoms</label>
+                <input type="text" id="liveName" autocomplete="name" required placeholder="Ex. BODJONA Bataka" />
+              </div>
+              <button type="submit" class="btn btn--primary">Entrer dans le direct</button>
+              <p id="liveMsg" class="form__note"></p>
+            </form>
+            <p class="form__note">En entrant, autorisez votre micro et votre caméra. La vidéo reste affichée sur cette page.</p>
+          </div>
+
+          <!-- Scène vidéo (Jitsi embarqué) -->
+          <div id="liveStage" hidden>
+            <div id="jitsi" class="live-embed"></div>
+          </div>
+
+        </div>
+        <aside class="visio-side">
+          <div class="card">
+            <h3>Participer au vote</h3>
+            <p>Pendant la séance, votez les résolutions soumises par le bureau.</p>
+            <a class="btn btn--cobalt" href="vote.html">Aller au vote des AG →</a>
+          </div>
+          <div class="card">
+            <h3>Bonnes pratiques</h3>
+            <ul class="join__list">
+              <li>Indiquez vos vrais nom et prénoms</li>
+              <li>Coupez votre micro sauf prise de parole</li>
+              <li>Utilisez « lever la main » pour demander la parole</li>
+              <li>Le chat est ouvert pour vos questions</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom">
+        <p>&copy; 2026 STNT — Syndicat des Travailleurs du Numérique du Togo.</p>
+        <p class="footer__sign">Webmaster : <strong>Ing. BODJONA Bataka Pignanti</strong> · webmaster@stnt-togo.org</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/jitsi-config.js"></script>
+  <script src="js/live.js"></script>
+</body>
+</html>
