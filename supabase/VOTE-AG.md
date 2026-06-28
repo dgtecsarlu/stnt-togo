@@ -105,3 +105,66 @@ supabase secrets set VOTE_ADMIN_CODE="choisis-un-code-fort"
 - Un membre ne peut voter qu'une fois (contrainte d'unicité de l'émargement).
 - Le code bureau (`VOTE_ADMIN_CODE`) doit rester confidentiel ; le changer en cas de fuite via `supabase secrets set`.
 - Un vrai tableau de bord SG avec rôles pourra remplacer la console à code partagé plus tard.
+
+---
+
+## 7. Vote par JETON d'invitation (coexiste avec le vote par compte)
+
+En plus du parcours compte (email + mot de passe), chaque membre validé peut
+recevoir **par email un lien personnel** contenant un **jeton unique** :
+`vote.html?jeton=XXXX`. Le membre clique, arrive directement sur ses scrutins,
+vote. **Aucun compte à créer.** Idéal pour une AG de masse.
+
+### Comment c'est sécurisé
+- Le jeton n'est **jamais stocké en clair** : seul son **hachage SHA-256** est en
+  base (`vote_invitations.token_hash`). Le jeton en clair n'existe qu'au moment
+  de la génération, le temps d'envoyer l'email.
+- **Anti-double-vote unifié** : l'émargement est ancré sur l'**identité membre**
+  (`vote_emargements.membre_id`, index unique `(vote_id, membre_id)`). Un membre
+  qui a à la fois un jeton ET un compte email ne peut voter qu'**une seule fois**
+  par scrutin.
+- Secret du vote inchangé (émargement et bulletin séparés, tables sans policy).
+- Comme le porteur de jeton n'est pas authentifié Supabase, la fonction
+  `vote-jeton` sert elle-même les scrutins (la RLS de `votes` bloque l'anon).
+- Le lien vaut une voix : à ne pas transférer (mentionné dans l'email).
+
+### Fichiers ajoutés
+| Fichier | Rôle |
+|---------|------|
+| `supabase/votes-jetons.sql` | Table `vote_invitations` + ancrage émargement sur `membre_id` |
+| `supabase/functions/vote-jeton/` | Vote par jeton (public) : session + voter, sert les scrutins |
+| `supabase/functions/vote-invitations/` | Bureau : génère les jetons et envoie les emails (code bureau) |
+
+### Déploiement
+```bash
+# a. Base : exécuter supabase/votes-jetons.sql dans le SQL Editor (après votes.sql)
+
+# b. Fonctions
+supabase functions deploy vote-jeton        --use-api
+supabase functions deploy vote-invitations  --use-api
+supabase functions deploy vote-voter        --use-api   # REDÉPLOYER : émargement ancré sur membre_id
+
+# c. Secrets pour l'envoi d'email (Resend)
+supabase secrets set RESEND_API_KEY="re_xxx"
+supabase secrets set VOTE_FROM_EMAIL="STNT <ag@stnt-togo.org>"   # optionnel
+supabase secrets set VOTE_BASE_URL="https://stnt-togo.org/vote.html"  # optionnel
+# VOTE_ADMIN_CODE est déjà posé (réutilisé par vote-invitations)
+```
+> **Resend** : créer un compte, vérifier le domaine `stnt-togo.org` (DNS SPF/DKIM
+> ajoutés chez Gandi), puis générer une clé API. Sans `RESEND_API_KEY`, l'action
+> `generer` répond 503 ; on peut alors utiliser `mode:"manuel"` pour récupérer
+> la liste `{nom, email, lien}` et envoyer les liens autrement (mail-merge, etc.).
+
+### Envoyer les invitations (bureau)
+Appel POST sur `…/functions/v1/vote-invitations`, en-tête `x-admin-code: <code bureau>` :
+```json
+{ "action": "generer" }                 // crée + envoie aux membres validés avec email, sans invitation
+{ "action": "generer", "renvoyer": true }   // régénère un nouveau jeton pour tous (renvoi)
+{ "action": "generer", "mode": "manuel" }   // ne tente pas l'envoi, renvoie les liens à diffuser soi-même
+{ "action": "etat" }                    // stats : corps électoral, avec email, générés, envoyés, ouverts
+{ "action": "revoquer", "membre_id": "…" }  // désactive le jeton d'un membre
+```
+
+### Côté membre
+Cliquer le lien reçu par email → l'espace de vote s'ouvre directement (« Invitation : Nom »),
+choisir une option, **Voter**. Une seule voix par scrutin, tous canaux confondus.

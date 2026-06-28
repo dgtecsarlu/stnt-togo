@@ -51,7 +51,7 @@ Deno.serve(async (req) => {
     // 2. Le membre doit être validé
     const { data: membre } = await admin
       .from("membres")
-      .select("statut_validation")
+      .select("id, statut_validation")
       .eq("user_id", user.id)
       .single();
     if (!membre || membre.statut_validation !== "validee") {
@@ -70,10 +70,12 @@ Deno.serve(async (req) => {
     const options: string[] = Array.isArray(vote.options) ? vote.options : [];
     if (!options.includes(choix)) return json({ error: "Choix invalide." }, 400);
 
-    // 4. Émargement (la contrainte d'unicité bloque le double vote)
+    // 4. Émargement ancré sur l'identité MEMBRE (membre_id) : la
+    //    contrainte d'unicité (vote_id, membre_id) bloque le double vote,
+    //    y compris si le membre vote aussi via un jeton d'invitation.
     const { error: emargeErr } = await admin
       .from("vote_emargements")
-      .insert([{ vote_id: voteId, user_id: user.id }]);
+      .insert([{ vote_id: voteId, user_id: user.id, membre_id: membre.id, canal: "compte" }]);
     if (emargeErr) {
       if (String(emargeErr.code) === "23505") {
         return json({ error: "Tu as déjà voté sur ce scrutin." }, 409);
@@ -84,7 +86,7 @@ Deno.serve(async (req) => {
     // 5. Bulletin (anonyme si secret)
     const { error: bulletinErr } = await admin
       .from("vote_bulletins")
-      .insert([{ vote_id: voteId, choix, votant_id: vote.secret ? null : user.id }]);
+      .insert([{ vote_id: voteId, choix, votant_id: vote.secret ? null : user.id, votant_membre_id: vote.secret ? null : membre.id }]);
     if (bulletinErr) {
       return json({ error: "Enregistrement du bulletin impossible. Contacte le bureau." }, 500);
     }

@@ -13,5 +13,15 @@ assets/*.pdf
 assets/Carte membre*.jpeg
 assets/supabase-config.js
 
+# Données personnelles des membres (noms, téléphones, emails) : JAMAIS sur le
+# dépôt public. Listes Excel + sorties de l'outil d'export.
+assets/*.xlsx
+assets/*.csv
+exports/
+
+# Cache Python de l'outil d'export
+__pycache__/
+*.pyc
+
 # Config Supabase locale (la vraie est référencée à part)
 

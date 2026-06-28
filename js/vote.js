@@ -28,6 +28,94 @@
     var s = votedSet(); if (s.indexOf(id) === -1) { s.push(id); localStorage.setItem(VOTED_KEY, JSON.stringify(s)); }
   }
 
+  // ============================================================
+  // MODE JETON — vote par lien d'invitation (vote.html?jeton=XXXX)
+  // Le votant n'est pas authentifié : tout passe par la fonction
+  // "vote-jeton" (qui sert aussi les scrutins, RLS contournée).
+  // ============================================================
+  var jeton = (function () {
+    try { return new URLSearchParams(window.location.search).get('jeton'); }
+    catch (e) { return null; }
+  })();
+
+  if (jeton) { initModeJeton(jeton); return; }
+
+  function initModeJeton(tok) {
+    authBox.hidden = true;
+    space.hidden = false;
+    var bar = document.getElementById('voteWho');
+    bar.textContent = 'Vérification de votre invitation…';
+    var logout = document.getElementById('logoutBtn');
+    if (logout) logout.hidden = true; // pas de session à fermer
+
+    appelJeton(tok, { action: 'session' }, function (err, data) {
+      if (err) {
+        space.hidden = true;
+        authBox.hidden = false;
+        authBox.innerHTML = '<div class="card"><p class="form__note">' +
+          escapeHtml(err) + '</p><p><a class="btn btn--outline" href="index.html">Retour au site</a></p></div>';
+        return;
+      }
+      var nom = (data.membre && data.membre.nom) || 'membre';
+      bar.textContent = 'Invitation : ' + nom + ' (vote par lien)';
+      var dejaVotes = data.deja_votes || [];
+      var open = document.getElementById('voteOpen');
+      var closed = document.getElementById('voteClosed');
+      var ouverts = [], clos = [];
+      (data.scrutins || []).forEach(function (v) { (v.statut === 'ouvert' ? ouverts : clos).push(v); });
+      open.innerHTML = ouverts.length ? '' : '<p class="page-empty">Aucun scrutin ouvert pour le moment.</p>';
+      ouverts.forEach(function (v) { open.appendChild(carteVoteJeton(v, tok, dejaVotes.indexOf(v.id) !== -1)); });
+      closed.innerHTML = clos.length ? '' : '<p class="page-empty">Aucun résultat publié.</p>';
+      clos.forEach(function (v) { closed.appendChild(carteResultat(v)); });
+    });
+  }
+
+  function appelJeton(tok, payload, cb) {
+    payload.jeton = tok;
+    fetch(cfg.url + '/functions/v1/vote-jeton', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + cfg.anonKey, 'apikey': cfg.anonKey },
+      body: JSON.stringify(payload)
+    }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+      .then(function (res) {
+        if (!res.ok) { cb((res.d && res.d.error) || 'Accès impossible.'); return; }
+        cb(null, res.d);
+      }).catch(function () { cb('Erreur réseau. Réessaie.'); });
+  }
+
+  function carteVoteJeton(v, tok, dejaVote) {
+    var el = document.createElement('div');
+    el.className = 'card vote-card';
+    var opts = (Array.isArray(v.options) ? v.options : []).map(function (o) {
+      return '<label class="vote-opt"><input type="radio" name="opt_' + v.id + '" value="' + escapeHtml(o) + '" /> ' + escapeHtml(o) + '</label>';
+    }).join('');
+    el.innerHTML =
+      '<h3>' + escapeHtml(v.titre) + '</h3>' +
+      (v.description ? '<p class="vote-desc">' + escapeHtml(v.description) + '</p>' : '') +
+      '<p class="vote-meta">' + (v.secret ? '🔒 Bulletin secret' : '👁 Vote nominatif') + ' · Majorité ' + escapeHtml(v.majorite) + ' · Quorum ' + escapeHtml(v.quorum_pct) + '%</p>' +
+      '<div class="vote-opts">' + opts + '</div>' +
+      '<button type="button" class="btn btn--cobalt vote-go"' + (dejaVote ? ' disabled' : '') + '>' + (dejaVote ? 'Vote enregistré ✓' : 'Voter') + '</button>' +
+      '<p class="form__note vote-card-msg"></p>';
+
+    var btn = el.querySelector('.vote-go');
+    var msg = el.querySelector('.vote-card-msg');
+    btn.addEventListener('click', function () {
+      var sel = el.querySelector('input[name="opt_' + v.id + '"]:checked');
+      if (!sel) { msg.textContent = 'Choisis une option.'; return; }
+      btn.disabled = true; msg.textContent = 'Envoi…';
+      appelJeton(tok, { action: 'voter', vote_id: v.id, choix: sel.value }, function (err) {
+        if (err) {
+          msg.textContent = err;
+          if (/déjà voté/.test(err)) { btn.textContent = 'Vote enregistré ✓'; }
+          else { btn.disabled = false; }
+          return;
+        }
+        btn.textContent = 'Vote enregistré ✓'; msg.textContent = 'Merci, ton vote est pris en compte.';
+      });
+    });
+    return el;
+  }
+
   // -------- Bascule connexion / inscription --------
   Array.prototype.forEach.call(document.querySelectorAll('.vote-tab'), function (tab) {
     tab.addEventListener('click', function () {
